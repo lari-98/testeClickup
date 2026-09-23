@@ -103,7 +103,7 @@ function cell(v) {
 }
 
 function toCSV(rows) {
-  const header = ["List", "Task Name", "Status", "Status Type", "Assignees", "Assignee Avatar", "Start Date", "Due Date"];
+  const header = ["List", "Task Name", "Status", "Status Type", "Assignees", "Assignee Avatar", "Start Date", "Due Date", "Task URL"];
   const out = [header.join(",")];
   for (const t of rows) {
     const assignees = (t.assignees || []).map(a => a.username || a.email || "").filter(Boolean);
@@ -112,7 +112,8 @@ function toCSV(rows) {
       cell(t.__group), cell(t.name),
       cell(t.status ? t.status.status : ""), cell(t.status ? t.status.type : ""),
       cell(assignees.join("; ")), cell(avatar),
-      cell(t.start_date || ""), cell(t.due_date || "")
+      cell(t.start_date || ""), cell(t.due_date || ""),
+      cell(t.url || "")
     ].join(","));
   }
   return out.join("\r\n") + "\r\n";
