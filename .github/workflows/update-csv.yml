@@ -24,8 +24,8 @@ jobs:
         env:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
           CLICKUP_PARENTS: ${{ secrets.CLICKUP_PARENTS }}
-          CLICKUP_LIST_IDS: ${{ secrets.CLICKUP_LIST_IDS }}
-          # ONLY_MILESTONES: "1"   # descomente para exportar só marcos
+          PARENT_DIRECT_ONLY: "0"
+          ONLY_MILESTONES: "1"   # descomente para exportar só marcos
         run: node generate-csv.js
 
       - name: Commitar se houve mudança
