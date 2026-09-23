@@ -22,5 +22,5 @@ O script tem dois modos, combináveis:
 Aceita três formatos:
 - **IDs por vírgula:** `901234567,901234568`
 - **Dicionário nome→id (recomendado)** — nomeia cada projeto na TV:
-  `{"SIRGEO Creativity":"901234567","Rotas & Frota":"901234568"}`
+  `{"Projeto 1":"901234567","Projeto 2":"901234568"}`
 - **Array JSON:** `["901234567","901234568"]`
