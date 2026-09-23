@@ -1,0 +1,37 @@
+# Coloque este arquivo em:  .github/workflows/update-csv.yml
+# Ele roda o generate-csv.js todo dia de manhã e commita o data.csv atualizado.
+
+name: Atualiza data.csv do ClickUp
+
+on:
+  schedule:
+    - cron: "0 9 * * *"      # 09:00 UTC ≈ 06:00 no horário de Brasília (BRT, UTC-3)
+  workflow_dispatch:          # permite rodar manualmente pelo botão "Run workflow"
+
+permissions:
+  contents: write             # necessário para commitar o data.csv de volta
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Gerar data.csv
+        env:
+          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
+          CLICKUP_LIST_IDS: ${{ secrets.CLICKUP_LIST_IDS }}
+          # ONLY_MILESTONES: "1"   # descomente para exportar só marcos
+        run: node generate-csv.js
+
+      - name: Commitar se houve mudança
+        run: |
+          git config user.name  "clickup-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data.csv
+          git diff --staged --quiet || git commit -m "Atualiza data.csv ($(date -u +%F))"
+          git push

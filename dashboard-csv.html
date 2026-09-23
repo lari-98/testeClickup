@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>SIRGEO · Painel de Marcos (CSV)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0b1220;--bg-2:#0f1830;--panel:#131e3a;--panel-2:#182545;--line:#26324f;--line-soft:#1c2843;
+  --ink:#eef2fb;--ink-dim:#9aa8c8;--ink-faint:#63719a;
+  --late:#ff4d5e;--ontrack:#4d84ff;--done:#2fd48a;--idle:#6b7aa0;--now:#ffb020;
+  --row-h:2.9rem;--list-w:33%;--list-w-min:22rem;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{font-size:clamp(14px,1.05vw,25px);height:100%}
+body{margin:0;height:100%;font-family:"Inter",system-ui,sans-serif;color:var(--ink);
+  background:radial-gradient(1200px 700px at 85% -10%,#16223f 0%,transparent 60%),radial-gradient(900px 600px at -5% 110%,#14203c 0%,transparent 55%),var(--bg);overflow:hidden}
+#app{display:flex;flex-direction:column;height:100%;padding:1.1rem 1.4rem 0.9rem}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.title-wrap{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.eyebrow{font-family:"Archivo";font-weight:600;font-size:.72rem;letter-spacing:.14em;color:var(--ink-faint)}
+h1{font-family:"Archivo";font-weight:800;font-size:1.55rem;line-height:1;margin:0;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.controls{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:.6rem;padding:.2rem;gap:.15rem}
+.seg button{font-family:"Archivo";font-weight:600;font-size:.8rem;color:var(--ink-dim);background:transparent;border:0;padding:.32rem .7rem;border-radius:.42rem;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--panel-2);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+select,.filebtn{font-family:"Inter";font-weight:500;font-size:.82rem;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:.55rem;padding:.36rem .55rem;cursor:pointer}
+select:disabled{opacity:.4;cursor:default}
+.filebtn{font-family:"Archivo";font-weight:600}
+.status-pill{display:flex;align-items:center;gap:.45rem;font-size:.76rem;color:var(--ink-dim);padding-left:.3rem}
+.live-dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--done)}
+.live-dot.demo{background:var(--now)} .live-dot.err{background:var(--late)}
+.counters{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin:1rem 0 .9rem}
+.stat{position:relative;background:linear-gradient(180deg,var(--panel) 0%,var(--bg-2) 100%);border:1px solid var(--line);border-radius:.9rem;padding:.85rem 1rem .95rem;overflow:hidden}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:.28rem;background:var(--c)}
+.stat .num{font-family:"Archivo";font-weight:800;font-size:2.4rem;line-height:.95;letter-spacing:-.02em;color:var(--c)}
+.stat .lab{font-family:"Archivo";font-weight:600;font-size:.82rem;color:var(--ink-dim);margin-top:.25rem}
+.stat .sub{font-size:.68rem;color:var(--ink-faint);margin-top:.05rem}
+.stat.late{--c:var(--late)}.stat.ontrack{--c:var(--ontrack)}.stat.done{--c:var(--done)}.stat.total{--c:var(--ink-dim)}
+.stat.total .num{color:var(--ink)}
+.board{flex:1;display:flex;flex-direction:column;min-height:0;background:var(--bg-2);border:1px solid var(--line);border-radius:1rem;overflow:hidden;position:relative}
+.board-head{display:flex;align-items:stretch;border-bottom:1px solid var(--line);height:2.4rem;flex:0 0 auto}
+.head-info{width:var(--list-w);min-width:var(--list-w-min);display:flex;align-items:center;gap:1rem;padding:0 1rem;border-right:1px solid var(--line-soft)}
+.head-info .col-label{font-family:"Archivo";font-weight:600;font-size:.72rem;letter-spacing:.1em;color:var(--ink-faint)}
+.legend{display:flex;gap:.9rem;margin-left:auto}
+.legend span{display:inline-flex;align-items:center;gap:.35rem;font-size:.68rem;color:var(--ink-dim)}
+.legend i{width:.7rem;height:.7rem;border-radius:.2rem;display:inline-block}
+.head-axis{position:relative;flex:1}
+.tick{position:absolute;top:0;bottom:0;display:flex;align-items:center}
+.tick .lbl{font-family:"Archivo";font-weight:600;font-size:.68rem;color:var(--ink-faint);padding-left:.35rem;white-space:nowrap}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+.grid{display:flex;min-height:100%}
+.list{width:var(--list-w);min-width:var(--list-w-min);flex:0 0 auto;border-right:1px solid var(--line-soft)}
+.track{position:relative;flex:1}
+.axis-lines{position:absolute;inset:0;pointer-events:none}
+.axis-lines .vline{position:absolute;top:0;bottom:0;width:1px;background:var(--line-soft)}
+.today{position:absolute;top:0;bottom:0;width:2px;background:var(--now);box-shadow:0 0 12px 1px rgba(255,176,32,.5);z-index:3}
+.today .cap{position:absolute;top:.15rem;left:.3rem;font-family:"Archivo";font-weight:700;font-size:.6rem;letter-spacing:.08em;color:#1b1200;background:var(--now);padding:.08rem .3rem;border-radius:.25rem}
+.lrow{height:var(--row-h);display:flex;align-items:center;gap:.7rem;padding:0 1rem;border-bottom:1px solid var(--line-soft)}
+.lrow:last-child,.trow:last-child{border-bottom:0}
+.avatar{width:1.7rem;height:1.7rem;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;font-family:"Archivo";font-weight:700;font-size:.72rem;color:#0b1220;border:1.5px solid rgba(255,255,255,.15)}
+.mname{font-weight:600;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
+.mdate{font-family:"Archivo";font-weight:600;font-size:.8rem;color:var(--ink-dim);flex:0 0 auto}
+.mdate.late{color:var(--late)}
+.sdot{width:.62rem;height:.62rem;border-radius:50%;flex:0 0 auto}
+.sdot.late{background:var(--late)}.sdot.ontrack{background:var(--ontrack)}.sdot.done{background:var(--done)}.sdot.idle{background:transparent;box-shadow:inset 0 0 0 1.5px var(--idle)}
+.trow{height:var(--row-h);position:relative;border-bottom:1px solid var(--line-soft)}
+.bar{position:absolute;top:50%;transform:translateY(-50%);height:1.05rem;border-radius:.55rem;min-width:.5rem;overflow:hidden;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.bar .fill{position:absolute;left:0;top:0;bottom:0;border-radius:.55rem}
+.bar.idle{background:transparent;box-shadow:inset 0 0 0 1.5px var(--idle)}
+.bar.idle .fill{display:none}
+.bar.late .fill{background:linear-gradient(90deg,#b5233a,var(--late))}
+.bar.ontrack .fill{background:linear-gradient(90deg,#2b4fb0,var(--ontrack))}
+.bar.done .fill{background:linear-gradient(90deg,#1c8f61,var(--done))}
+.marker{position:absolute;top:50%;transform:translate(-50%,-50%) rotate(45deg);width:.85rem;height:.85rem;border-radius:.18rem;z-index:2;border:1.5px solid rgba(11,18,32,.6)}
+.marker.late{background:var(--late)}.marker.ontrack{background:var(--ontrack)}.marker.done{background:var(--done)}.marker.idle{background:var(--idle)}
+.bar-face{position:absolute;top:50%;transform:translateY(-50%);width:1.5rem;height:1.5rem;border-radius:50%;z-index:2;border:1.5px solid rgba(11,18,32,.7);display:grid;place-items:center;font-family:"Archivo";font-weight:700;font-size:.62rem;color:#0b1220}
+.trow.project .bar{height:1.35rem;background:rgba(77,132,255,.14);box-shadow:inset 0 0 0 1px rgba(77,132,255,.35)}
+.trow.project .bar .fill{background:linear-gradient(90deg,rgba(77,132,255,.5),rgba(120,160,255,.7))}
+.lrow.project .mname{font-family:"Archivo";font-weight:800}
+.lrow.project{background:rgba(77,132,255,.06)}.trow.project{background:rgba(77,132,255,.04)}
+.empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:2rem;background:rgba(11,18,32,.4)}
+.empty h2{font-family:"Archivo";font-weight:700;font-size:1.1rem;margin:0 0 .3rem}
+.empty p{color:var(--ink-dim);font-size:.85rem;margin:0 auto;max-width:30rem;line-height:1.5}
+.dropzone{outline:2px dashed transparent;transition:outline-color .15s}
+.dropzone.drag{outline-color:var(--ontrack);outline-offset:-6px}
+footer{display:flex;justify-content:space-between;align-items:center;padding-top:.55rem;font-size:.72rem;color:var(--ink-faint)}
+footer .demo-tag{color:var(--now);font-weight:600}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="title-wrap">
+      <div class="eyebrow">CLICKUP · PAINEL DE EXECUÇÃO · VIA CSV</div>
+      <h1 id="projTitle">SIRGEO Creativity</h1>
+    </div>
+    <div class="controls">
+      <div class="seg" id="viewSeg" role="group" aria-label="Modo de visualização">
+        <button data-view="ano" aria-pressed="true">Anual</button>
+        <button data-view="mes" aria-pressed="false">Mensal</button>
+      </div>
+      <select id="projSel" aria-label="Projeto"></select>
+      <select id="yearSel" aria-label="Ano"></select>
+      <select id="monthSel" aria-label="Mês" disabled></select>
+      <button class="filebtn" id="pickBtn" title="Carregar um CSV do ClickUp">Trocar CSV</button>
+      <input type="file" id="fileInput" accept=".csv,text/csv" hidden />
+      <div class="status-pill"><span class="live-dot demo" id="liveDot"></span><span id="liveTxt">demo</span></div>
+    </div>
+  </header>
+
+  <section class="counters" id="counters"></section>
+
+  <div class="board dropzone" id="board">
+    <div class="board-head">
+      <div class="head-info">
+        <span class="col-label">MARCO</span>
+        <div class="legend">
+          <span><i style="background:var(--late)"></i>Atrasado</span>
+          <span><i style="background:var(--ontrack)"></i>No prazo</span>
+          <span><i style="background:var(--done)"></i>Concluído</span>
+          <span><i style="background:transparent;box-shadow:inset 0 0 0 1.5px var(--idle)"></i>Não iniciado</span>
+        </div>
+      </div>
+      <div class="head-axis" id="axisHead"></div>
+    </div>
+    <div class="scroll">
+      <div class="grid">
+        <div class="list" id="listCol"></div>
+        <div class="track" id="trackCol"><div class="axis-lines" id="axisLines"></div></div>
+      </div>
+    </div>
+    <div class="empty" id="emptyState" style="display:none">
+      <div>
+        <h2 id="emptyTitle">Arraste o CSV do ClickUp aqui</h2>
+        <p id="emptyMsg">Exporte a lista no ClickUp (Customize → Export → CSV, opção <b>All columns</b>), e solte o arquivo nesta tela — ou clique em <b>Trocar CSV</b> no topo.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer><span id="foot"></span><span id="footRight"></span></footer>
+</div>
+
+<script>
+/* ============================================================================
+   CONFIGURAÇÃO
+   ----------------------------------------------------------------------------
+   Fluxo diário: exporte a lista no ClickUp, salve como "data.csv" na MESMA pasta
+   desta página. A tela carrega esse arquivo sozinha ao abrir/atualizar.
+   (Se abrir o HTML por file:// o navegador pode bloquear a leitura automática —
+    nesse caso use "Trocar CSV" ou arraste o arquivo pra tela.)
+   ============================================================================ */
+const CONFIG = {
+  CSV_URL: "data.csv",          // arquivo lido automaticamente ao lado da página
+  PROJECT_NAME: "SIRGEO Creativity",
+  RELOAD_MINUTES: 30,           // re-lê o data.csv de tempos em tempos
+  START_YEAR: 2026,
+  START_VIEW: "ano",
+  NOT_STARTED_STATUSES: ["a fazer","to do","aberto","backlog","pendente","novo","não iniciado","nao iniciado"],
+  // Sinônimos de cabeçalho aceitos (minúsculas). Acrescente os seus se precisar:
+  HEADERS: {
+    name:   ["task name","name","nome da tarefa","nome","tarefa","task"],
+    status: ["status","situação","situacao","status name"],
+    statusType:["status type","tipo de status"],
+    due:    ["due date","due date (unix)","data de entrega","data de vencimento","prazo","vencimento","due"],
+    start:  ["start date","start date (unix)","data de início","data de inicio","início","inicio","start"],
+    assignee:["assignees","assignee","responsável","responsavel","responsáveis","responsaveis","atribuído a","atribuido a"],
+    list:["list","lista","projeto","project","list name","nome da lista"]
+  }
+};
+
+/* ---------- DEMO (mesmo do print) ---------- */
+const TEAM={ana:["Ana Ribeiro","AR"],marc:["Marcos Costa","MC"],julia:["Júlia Souza","JS"],pedro:["Pedro Lima","PL"]};
+function d(s){const[m,day,y]=s.split("/").map(Number);return new Date(2000+y,m-1,day).getTime();}
+const DEMO=[
+  ["Autenticação","5/24/26","ana","done"],["Usuários e Perfil","8/9/26","julia","done"],
+  ["Veículos","8/9/26","pedro",""],["Macroplanejamento","8/23/26","ana",""],
+  ["Vinculação de rotas","8/23/26","marc",""],["Plano de Rota","9/20/26","pedro",""],
+  ["Diário (Planejamento)","10/18/26","ana",""],["Propósito","10/27/26","marc",""],
+  ["Tracking","11/1/26","marc",""],["Eventos","11/15/26","julia",""],
+  ["Hodômetro","11/15/26","pedro","idle"],["Início do dia","11/15/26","ana","idle"],
+  ["Atendimento","11/22/26","julia",""],["Coleta","12/23/26","marc",""],
+  ["Almoço","12/23/26","julia",""],["Fim do dia","1/31/27","pedro","idle"],
+];
+function buildDemo(){
+  const P1=CONFIG.PROJECT_NAME, P2="Rotas & Frota";
+  const list=DEMO.map((t,i)=>({id:"d"+i,name:t[0],due:d(t[1]),start:null,
+    statusName:t[3]==="done"?"concluído":(t[3]==="idle"?"a fazer":"em andamento"),
+    statusType:t[3]==="done"?"done":"open",idleFlag:t[3]==="idle",
+    owner:mkOwner(TEAM[t[2]][0]),isProject:false,project:P1}));
+  // segundo projeto de exemplo (pra mostrar o filtro de Projeto funcionando)
+  [["Cadastro de motoristas","10/5/26","ana","done"],["Telemetria","11/30/26","marc","idle"],
+   ["Cercas virtuais","12/10/26","pedro",""]].forEach((t,i)=>list.push({id:"e"+i,name:t[0],due:d(t[1]),start:null,
+    statusName:t[3]==="done"?"concluído":(t[3]==="idle"?"a fazer":"em andamento"),
+    statusType:t[3]==="done"?"done":"open",idleFlag:t[3]==="idle",owner:mkOwner(TEAM[t[2]][0]),isProject:false,project:P2}));
+  list.push({id:"proj",name:"3. Execução — "+P1,due:d("4/4/27"),start:d("5/1/26"),
+    statusName:"em andamento",statusType:"open",idleFlag:false,owner:null,isProject:true,project:P1});
+  return list;
+}
+
+/* ============================================================================
+   PARSER DE CSV (embutido — sem dependências, trata aspas e vírgulas)
+   ============================================================================ */
+function parseCSV(text){
+  const rows=[]; let row=[],field="",q=false;
+  text=text.replace(/^\uFEFF/,""); // remove BOM
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){
+      if(c==='"'){ if(text[i+1]==='"'){field+='"';i++;} else q=false; }
+      else field+=c;
+    }else{
+      if(c==='"')q=true;
+      else if(c===','){row.push(field);field="";}
+      else if(c==='\n'){row.push(field);rows.push(row);row=[];field="";}
+      else if(c==='\r'){/*ignora*/}
+      else field+=c;
+    }
+  }
+  if(field.length||row.length){row.push(field);rows.push(row);}
+  return rows.filter(r=>r.length>1||(r[0]&&r[0].trim()));
+}
+
+function findCol(headers,synonyms){
+  const norm=headers.map(h=>h.trim().toLowerCase());
+  for(const s of synonyms){ const i=norm.indexOf(s); if(i>=0)return i; }
+  // tolerante: aceita cabeçalho que CONTÉM o sinônimo
+  for(const s of synonyms){ const i=norm.findIndex(h=>h.includes(s)); if(i>=0)return i; }
+  return -1;
+}
+
+function parseDate(v){
+  if(v==null)return null; v=String(v).trim(); if(!v)return null;
+  if(/^\d{10}$/.test(v))return Number(v)*1000;     // unix segundos
+  if(/^\d{13}$/.test(v))return Number(v);          // unix ms
+  const t=Date.parse(v); return isNaN(t)?null:t;   // texto (ISO, etc.)
+}
+
+function firstAssignee(v){
+  if(!v)return null;
+  let s=String(v).replace(/^\[|\]$/g,"").trim();
+  if(!s)return null;
+  return s.split(/[,;|]/)[0].trim() || null;
+}
+
+/* transforma o CSV em marcos normalizados (mesmo formato do demo) */
+function csvToTasks(text){
+  const rows=parseCSV(text);
+  if(rows.length<2) throw new Error("CSV vazio ou sem linhas de dados.");
+  const headers=rows[0];
+  const ci={
+    name:findCol(headers,CONFIG.HEADERS.name),
+    status:findCol(headers,CONFIG.HEADERS.status),
+    statusType:findCol(headers,CONFIG.HEADERS.statusType),
+    due:findCol(headers,CONFIG.HEADERS.due),
+    start:findCol(headers,CONFIG.HEADERS.start),
+    assignee:findCol(headers,CONFIG.HEADERS.assignee),
+    list:findCol(headers,CONFIG.HEADERS.list)
+  };
+  if(ci.name<0) throw new Error('Não achei a coluna do nome da tarefa. Cabeçalhos lidos: '+headers.join(" | "));
+  if(ci.due<0)  throw new Error('Não achei a coluna de data de entrega (due date). Cabeçalhos lidos: '+headers.join(" | "));
+  const out=[];
+  for(let r=1;r<rows.length;r++){
+    const row=rows[r]; if(!row[ci.name])continue;
+    const due=parseDate(row[ci.due]); if(due==null)continue; // sem data não entra na timeline
+    const statusName=(ci.status>=0?row[ci.status]:"")||"";
+    out.push({
+      id:"c"+r, name:row[ci.name].trim(), due,
+      start: ci.start>=0?parseDate(row[ci.start]):null,
+      statusName, statusType:(ci.statusType>=0?(row[ci.statusType]||"open"):"open"),
+      idleFlag: CONFIG.NOT_STARTED_STATUSES.includes(statusName.toLowerCase()),
+      owner: mkOwner(ci.assignee>=0?firstAssignee(row[ci.assignee]):null),
+      project: (ci.list>=0 ? (row[ci.list]||"").trim() : "") || "Sem projeto",
+      isProject:false
+    });
+  }
+  if(out.length===0) throw new Error("Nenhuma tarefa com data de entrega encontrada no CSV.");
+  return out;
+}
+
+/* dono a partir do NOME (CSV não traz foto) → iniciais + cor determinística */
+function mkOwner(name){
+  if(!name)return null;
+  const parts=name.split(/\s+/).filter(Boolean);
+  const initials=((parts[0]||"")[0]||"")+((parts[1]||"")[0]||parts[0][1]||"");
+  let h=0; for(const ch of name)h=(h*31+ch.charCodeAt(0))>>>0;
+  const palette=["#7fa8ff","#ffcf6b","#7de3b1","#d59bff","#ff9db1","#6be0e0","#ffb27f","#a7b4ff"];
+  return {name,initials:initials.toUpperCase(),color:palette[h%palette.length],avatar:null};
+}
+
+/* ============================================================================
+   CLASSIFICAÇÃO + ESTADO + RENDER  (idêntico à versão via API)
+   ============================================================================ */
+function classify(m,now){
+  const done=m.statusType==="done"||m.statusType==="closed"||/concl|done|complete|closed|fechad|entreg/i.test(m.statusName);
+  if(done)return"done";
+  if(m.due&&m.due<now)return"late";
+  if(m.idleFlag)return"idle";
+  return"ontrack";
+}
+const MESES=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+const MESES_LONGOS=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+let ALL=[],VIEW=CONFIG.START_VIEW,YEAR=CONFIG.START_YEAR,MONTH=new Date().getMonth(),PROJECT="Todos",SOURCE="demo",FILENAME="";
+function projectsInData(){const s=new Set(ALL.filter(m=>!m.isProject&&m.project).map(m=>m.project));return[...s].sort();}
+const PROJ_PALETTE=["#4d84ff","#2fd48a","#ffb020","#d59bff","#ff9db1","#6be0e0","#ff7a59","#a7b4ff"];
+function projColor(name){let h=0;for(const c of(name||""))h=(h*31+c.charCodeAt(0))>>>0;return PROJ_PALETTE[h%PROJ_PALETTE.length];}
+
+function deriveStarts(list){
+  const sorted=[...list].sort((a,b)=>a.due-b.due); let prev=null;
+  for(const m of sorted){ if(m.isProject)continue;
+    if(m.start==null){const lead=14*864e5;m.effStart=prev!=null?Math.min(prev,m.due-lead):(m.due-lead);}
+    else m.effStart=m.start; prev=m.due;
+  }
+  for(const m of list){ if(m.isProject)m.effStart=m.start!=null?m.start:m.due-90*864e5; }
+  return list;
+}
+function yearsInData(){const ys=new Set(ALL.filter(m=>!m.isProject).map(m=>new Date(m.due).getFullYear()));if(!ys.size)ys.add(YEAR);return[...ys].sort();}
+function domainFor(){
+  if(VIEW==="mes")return{start:new Date(YEAR,MONTH,1).getTime(),end:new Date(YEAR,MONTH+1,0,23,59,59).getTime()};
+  return{start:new Date(YEAR,0,1).getTime(),end:new Date(YEAR,11,31,23,59,59).getTime()};
+}
+function visible(){return ALL.filter(m=>{if(PROJECT!=="Todos"&&m.project!==PROJECT)return false;const dt=new Date(m.due);return VIEW==="mes"?(dt.getFullYear()===YEAR&&dt.getMonth()===MONTH):dt.getFullYear()===YEAR;}).sort((a,b)=>(a.isProject?-1:0)-(b.isProject?-1:0)||a.due-b.due);}
+function pct(t,dom){return Math.max(0,Math.min(100,(t-dom.start)/(dom.end-dom.start)*100));}
+
+function render(){
+  const now=Date.now(),dom=domainFor(),rows=visible();
+  const b={late:0,ontrack:0,done:0,idle:0};
+  rows.filter(m=>!m.isProject).forEach(m=>b[classify(m,now)]++);
+  const total=rows.filter(m=>!m.isProject).length;
+  document.getElementById("counters").innerHTML=`
+    <div class="stat late"><div class="num">${b.late}</div><div class="lab">Atrasados</div><div class="sub">passaram do prazo</div></div>
+    <div class="stat ontrack"><div class="num">${b.ontrack+b.idle}</div><div class="lab">No prazo</div><div class="sub">${b.idle} não iniciados</div></div>
+    <div class="stat done"><div class="num">${b.done}</div><div class="lab">Concluídos</div><div class="sub">entregues</div></div>
+    <div class="stat total"><div class="num">${total}</div><div class="lab">Marcos no período</div><div class="sub">${VIEW==="mes"?MESES_LONGOS[MONTH]+" / "+YEAR:"Ano de "+YEAR}</div></div>`;
+  const axisHead=document.getElementById("axisHead"),axisLines=document.getElementById("axisLines");
+  axisHead.innerHTML=""; axisLines.querySelectorAll(".vline,.today").forEach(n=>n.remove());
+  const ticks=[];
+  if(VIEW==="mes"){for(let day=1;day<=new Date(YEAR,MONTH+1,0).getDate();day+=7)ticks.push({t:new Date(YEAR,MONTH,day).getTime(),lbl:"dia "+day});}
+  else{for(let mo=0;mo<12;mo++)ticks.push({t:new Date(YEAR,mo,1).getTime(),lbl:MESES[mo]});}
+  ticks.forEach(tk=>{const x=pct(tk.t,dom);
+    const h=document.createElement("div");h.className="tick";h.style.left=x+"%";h.innerHTML=`<span class="lbl">${tk.lbl}</span>`;axisHead.appendChild(h);
+    const v=document.createElement("div");v.className="vline";v.style.left=x+"%";axisLines.appendChild(v);});
+  if(now>=dom.start&&now<=dom.end){const tl=document.createElement("div");tl.className="today";tl.style.left=pct(now,dom)+"%";tl.innerHTML='<span class="cap">HOJE</span>';axisLines.appendChild(tl);}
+  const listCol=document.getElementById("listCol"),trackCol=document.getElementById("trackCol");
+  listCol.innerHTML=""; trackCol.querySelectorAll(".trow").forEach(n=>n.remove());
+  const empty=document.getElementById("emptyState");
+  if(rows.length){ empty.style.display="none"; }
+  else if(SOURCE==="demo"||SOURCE==="empty"){ empty.style.display="grid"; document.getElementById("emptyTitle").textContent="Arraste o CSV do ClickUp aqui"; }
+  else { empty.style.display="grid"; document.getElementById("emptyTitle").textContent="Nenhum marco neste período"; document.getElementById("emptyMsg").textContent="Troque o mês ou o ano no topo."; }
+  const multiProj = PROJECT==="Todos" && projectsInData().length>1;
+  rows.forEach(m=>{
+    const cls=m.isProject?"ontrack":classify(m,now),late=cls==="late";
+    const l=document.createElement("div");l.className="lrow"+(m.isProject?" project":"");
+    if(multiProj && m.project){ l.style.borderLeft="3px solid "+projColor(m.project); l.style.paddingLeft="calc(1rem - 3px)"; l.title=m.project; }
+    l.innerHTML=`<span class="sdot ${cls}"></span>${avatarHTML(m.owner)}<span class="mname">${escapeHtml(m.name)}</span><span class="mdate ${late?"late":""}">${fmtDate(m.due)}</span>`;
+    listCol.appendChild(l);
+    const r=document.createElement("div");r.className="trow"+(m.isProject?" project":"");
+    const x0=pct(m.effStart,dom),x1=pct(m.due,dom),left=Math.min(x0,x1),width=Math.max(.6,Math.abs(x1-x0));
+    let fill=100; if(cls==="ontrack")fill=m.effStart<m.due?Math.max(4,Math.min(100,(now-m.effStart)/(m.due-m.effStart)*100)):100; if(cls==="idle")fill=0;
+    r.innerHTML=`<div class="bar ${cls==="idle"?"idle":cls}" style="left:${left}%;width:${width}%"><div class="fill" style="width:${fill}%"></div></div>
+      <div class="marker ${cls}" style="left:${x1}%"></div>${m.owner?faceHTML(m.owner,x1):""}`;
+    trackCol.appendChild(r);
+  });
+  const stamp=new Date();
+  document.getElementById("foot").innerHTML=(SOURCE==="demo"?'<span class="demo-tag">● MODO DEMO</span> — dados do print. ':(FILENAME?('CSV: '+escapeHtml(FILENAME)+' · '):''))+"Atualizado às "+stamp.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+  document.getElementById("footRight").textContent=SOURCE==="demo"?"Arraste seu data.csv para começar":"Re-lê o arquivo a cada "+CONFIG.RELOAD_MINUTES+" min";
+}
+function avatarHTML(o){return o?`<span class="avatar" style="background:${o.color}">${o.initials}</span>`:`<span class="avatar" style="background:#2a3a5e;color:#9fb0d6">–</span>`;}
+function faceHTML(o,x){return o?`<span class="bar-face" style="left:${x}%;background:${o.color}">${o.initials}</span>`:"";}
+function fmtDate(ms){const dt=new Date(ms);return String(dt.getDate()).padStart(2,"0")+"/"+String(dt.getMonth()+1).padStart(2,"0")+"/"+String(dt.getFullYear()).slice(2);}
+function escapeHtml(s){return(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+/* ---------- controles ---------- */
+function buildProjSelect(){const sel=document.getElementById("projSel");const ps=projectsInData();sel.innerHTML="";
+  const mk=(v,t)=>{const o=document.createElement("option");o.value=v;o.textContent=t;if(v===PROJECT)o.selected=true;sel.appendChild(o);};
+  mk("Todos","Todos os projetos"); ps.forEach(p=>mk(p,p));
+  if(PROJECT!=="Todos"&&!ps.includes(PROJECT))PROJECT="Todos";
+  sel.style.display = ps.length>1 ? "" : "none"; // some quando só há 1 projeto
+}
+function buildYearSelect(){const sel=document.getElementById("yearSel");sel.innerHTML="";yearsInData().forEach(y=>{const o=document.createElement("option");o.value=y;o.textContent=y;if(y===YEAR)o.selected=true;sel.appendChild(o);});}
+function buildMonthSelect(){const sel=document.getElementById("monthSel");sel.innerHTML="";MESES_LONGOS.forEach((m,i)=>{const o=document.createElement("option");o.value=i;o.textContent=m;if(i===MONTH)o.selected=true;sel.appendChild(o);});}
+document.getElementById("viewSeg").addEventListener("click",e=>{const btn=e.target.closest("button");if(!btn)return;VIEW=btn.dataset.view;[...e.currentTarget.children].forEach(x=>x.setAttribute("aria-pressed",x===btn));document.getElementById("monthSel").disabled=VIEW!=="mes";render();});
+document.getElementById("projSel").addEventListener("change",e=>{PROJECT=e.target.value;render();});
+document.getElementById("yearSel").addEventListener("change",e=>{YEAR=Number(e.target.value);render();});
+document.getElementById("monthSel").addEventListener("change",e=>{MONTH=Number(e.target.value);render();});
+document.getElementById("pickBtn").addEventListener("click",()=>document.getElementById("fileInput").click());
+document.getElementById("fileInput").addEventListener("change",e=>{const f=e.target.files[0];if(f)readFile(f);});
+
+/* drag & drop */
+const board=document.getElementById("board");
+["dragenter","dragover"].forEach(ev=>board.addEventListener(ev,e=>{e.preventDefault();board.classList.add("drag");}));
+["dragleave","drop"].forEach(ev=>board.addEventListener(ev,e=>{e.preventDefault();if(ev==="dragleave"&&e.relatedTarget&&board.contains(e.relatedTarget))return;board.classList.remove("drag");}));
+board.addEventListener("drop",e=>{const f=e.dataTransfer.files[0];if(f)readFile(f);});
+
+function setState(s){const dot=document.getElementById("liveDot"),txt=document.getElementById("liveTxt");dot.className="live-dot "+(s==="csv"?"":s==="err"?"err":"demo");txt.textContent=s==="csv"?"CSV carregado":(s==="err"?"erro no CSV":"demo");}
+
+function applyTasks(list,filename,src){
+  ALL=deriveStarts(list); FILENAME=filename||""; SOURCE=src;
+  buildProjSelect(); buildYearSelect(); render();
+}
+function readFile(file){
+  const reader=new FileReader();
+  reader.onload=()=>{ try{ applyTasks(csvToTasks(reader.result),file.name,"csv"); setState("csv"); }
+    catch(err){ setState("err"); alert("Não consegui ler o CSV:\n\n"+err.message); } };
+  reader.onerror=()=>{setState("err");alert("Falha ao abrir o arquivo.");};
+  reader.readAsText(file,"utf-8");
+}
+async function tryAutoLoad(){
+  try{
+    const res=await fetch(CONFIG.CSV_URL,{cache:"no-store"});
+    if(!res.ok)throw 0;
+    applyTasks(csvToTasks(await res.text()),CONFIG.CSV_URL,"csv"); setState("csv"); return true;
+  }catch(e){ return false; }
+}
+
+/* ---------- init ---------- */
+document.getElementById("projTitle").textContent=CONFIG.PROJECT_NAME;
+buildMonthSelect();
+applyTasks(buildDemo(),"", "demo"); setState("demo");      // mostra algo na hora
+tryAutoLoad();                                            // e tenta o data.csv real
+setInterval(()=>{ if(SOURCE!=="demo") tryAutoLoad(); }, CONFIG.RELOAD_MINUTES*60*1000);
+</script>
+</body>
+</html>
