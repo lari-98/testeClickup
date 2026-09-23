@@ -1508,3 +1508,180 @@ SISVIAGENS,Solicitação de projeto [P.O],aberto,open,,,,
 SISVIAGENS,Kickoff [P.O],pronto,done,,,,
 SISVIAGENS,1. Iniciação [P.O],aberto,open,,,,
 SISVIAGENS,2. Planejamento,pronto,done,,,,
+Mapoteca,Site do Atlas para os dados da mapoteca,aberto,open,Luiz Carlos Gabriel Pacheco Castello Branco,https://attachments.clickup.com/profilePictures/49109341_t49.jpg,,1796886000000
+Mapoteca,🚩 7. Atlas Digital (Mapoteca) - Divulgação,aberto,open,,,,1794294000000
+Mapoteca,🚛 5. Entrega técnica - 1. Atlas Digital,andamento,custom,Fábio Augusto,https://attachments.clickup.com/profilePictures/49144835_Ke1.jpg,,1794294000000
+Mapoteca,Integração com Security,aberto,open,Frederico Soares; Lucas da Silva Ribas; Diego Leite Carvalho; Fernando Quadro,,1789974000000,1790146800000
+Mapoteca,Geração da nova versão do Banner,pronto,done,Larissa Gonçalves,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,1790060400000
+Mapoteca,Aplicação da identidade visual,aberto,open,Fernando Quadro,,1789628400000,1789714800000
+Mapoteca,2026-08-17 - Início do projeto,pronto,done,Frederico Soares; Fernando Quadro; Diego Leite Carvalho; Fábio Augusto,,1789628400000,1789628400000
+Mapoteca,Criação de Grupos de Usuários,pronto,done,Frederico Soares; Fernando Quadro,,1788505200000,1789542000000
+Mapoteca,Homologação do Ambiente DEV,pronto,done,Frederico Soares; Lucas da Silva Ribas,,1789023600000,1789455600000
+Mapoteca,Criação de Mapoteca  no PRX e Cloudflare,pronto,done,Danilo Nogueira Teixeira,https://attachments.clickup.com/profilePictures/49124006_j3l.jpg,1789023600000,1789023600000
+Mapoteca,2026-09-04 [Mapoteca] - Definição do ambiente de produção da Mapoteca,pronto,done,Frederico Soares; Fábio Augusto; Diego Leite Carvalho; Luiz Carlos Gabriel Pacheco Castello Branco; Marcio Dias; Jefferson Cristiano dos Santos Silva,,1788505200000,1788505200000
+Mapoteca,1ª Devolutiva no ambiente de HMG ,pronto,done,Lucas da Silva Ribas; Fernando Quadro,https://attachments.clickup.com/profilePictures/82012439_yYK.jpg,1787814000000,1788505200000
+Mapoteca,2026-09-02 [Mapoteca] - Ponto de controle,pronto,done,Frederico Soares; Fábio Augusto; Larissa Gonçalves; Luciano de Castro Oliveira; Luiz Carlos Gabriel Pacheco Castello Branco; Lucas da Silva Ribas,,1788332400000,1788332400000
+Mapoteca,Respostas às questões da Reunião de Alinhamento – CTI,pronto,done,Frederico Soares; Lucas da Silva Ribas; Augusto Andrade Argolo,,1788159600000,1788159600000
+Mapoteca,2026-08-31 - Alinhamento com Consultoria e CTI sobre Relatorio de Homologação (Ambiente HMG),pronto,done,Frederico Soares; Lucas da Silva Ribas; Luciano de Castro Oliveira; Augusto Andrade Argolo; Luiz Carlos Gabriel Pacheco Castello Branco,,1788159600000,1788159600000
+Mapoteca,Plano de Ação - Homologação Ambiente GeoNode HMG,pronto,done,Frederico Soares; Fernando Quadro,,1787641200000,1787900400000
+Mapoteca,Configuração básica da Arquitetura GeoNode,pronto,done,Frederico Soares,,1787209200000,1787209200000
+Mapoteca,Roadmap Mapoteca - CTI,pronto,done,Luiz Carlos Gabriel Pacheco Castello Branco; Diego Leite Carvalho; Augusto Andrade Argolo; Larissa Gonçalves,https://attachments.clickup.com/profilePictures/49109341_t49.jpg,,1785135600000
+Mapoteca,Reunião de kickoff - Mapoteca,pronto,done,Larissa Gonçalves; Frederico Soares; Luiz Carlos Gabriel Pacheco Castello Branco; Augusto Andrade Argolo; Fábio Augusto,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,1782889200000
+Mapoteca,2026-09-16 -  Reunião de Alinhamento com GEOCURSOS e Fred,aprovação,custom,Frederico Soares,,,
+Mapoteca,Teste e correções [LP Atlas],andamento,custom,Larissa Gonçalves,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,
+Mapoteca,Retirar toda a sessão da Mapoteca (não funciona),aberto,open,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapoteca,OTT de login do Atlas não funciona,aberto,open,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapoteca,Teste Atlas/Geonode,aberto,open,,,,
+Mapoteca,2026-09-15 - Reunião de Alinhamento com GEOCURSOS e CTI,pronto,done,Frederico Soares; Fernando Quadro; Lucas da Silva Ribas; Augusto Andrade Argolo,,,
+Mapoteca,Análise de Viabilidade - Subsites no GeoNode 5,aprovação,custom,Frederico Soares,,,
+Mapoteca,2026-09-09 - Reunião de Alinhamento com GEOCURSOS,aprovação,custom,Frederico Soares,,,
+Mapoteca,2026-08-20 [Mapoteca] Orçamento na nuvem - CNT Data,aberto,open,,,,
+Mapoteca,Relatório referente a Agosto/2026,concluído,closed,Frederico Soares; Fábio Augusto,,,
+Mapoteca,Relatório Mensal de Horas de Consultoria,aberto,open,Frederico Soares,,,
+Mapoteca,2026-08-20 - Alinhamento para uso do clickup e apresentação geral dos dados,pronto,done,Frederico Soares; Fernando Quadro,,,
+Mapoteca,Atividades de Consultoria da Geocursos,aberto,open,,,,
+Mapoteca,2026-08-19 Definição de grupo de usuários,pronto,done,Fábio Augusto; Frederico Soares,https://attachments.clickup.com/profilePictures/49144835_Ke1.jpg,,
+Mapoteca,Reuniões,andamento,custom,Frederico Soares,,,
+Mapoteca,Correções e ajustes,aberto,open,,,,
+Mapoteca,Homologação,aberto,open,,,,
+Mapoteca,Desenvolvimento,andamento,custom,Lucas da Silva Ribas,https://attachments.clickup.com/profilePictures/82012439_yYK.jpg,,
+Mapoteca,🚛 3.7. [M7] - Módulo 7: Avaliar sincronização de dados com CNT Data,aberto,open,,,,
+Mapoteca,🚛 3.6. [M6] - Módulo 6: Integração com o site do Atlas,aberto,open,,,,
+Mapoteca,Correções e ajustes,aberto,open,,,,
+Mapoteca,Homologação,aberto,open,,,,
+Mapoteca,Desenvolvimento,pronto,done,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapoteca,🚛 3.5. [M5] - Módulo 5: Integração com Security CNT,validação / ajuste,custom,,,,
+Mapoteca,🚛 3.4. [M4] - Módulo 4: Implantação do Geonode (bd + servidor de mapas + aplicação) em PRD,aberto,open,,,,
+Mapoteca,🚛 3.3. [M3] - Módulo 3: Implantação do Geonode (bd + servidor de mapas + aplicação) em HMG,andamento,custom,,,,
+Mapoteca,🚛 3.2. [M2] - Módulo 2: Estudo de integração com o Security,pronto,done,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapoteca,Acesso as tabelas de atributo das camadas carregadas,pronto,done,Augusto Andrade Argolo; Frederico Soares; Diego Leite Carvalho; Lucas da Silva Ribas,https://attachments.clickup.com/profilePictures/49124007_JJl.jpg,,
+Mapoteca,Processos de envio e configuração de email,pronto,done,Augusto Andrade Argolo; Frederico Soares; Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124007_JJl.jpg,1786518000000,
+Mapoteca,Inserir no Geonode idioma Português DSV,pronto,done,Augusto Andrade Argolo; Frederico Soares; Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124007_JJl.jpg,1786518000000,
+Mapoteca,Correções e ajustes [CTI e P.O],pronto,done,Frederico Soares; Augusto Andrade Argolo; Diego Leite Carvalho,,,
+Mapoteca,Desenvolvimento [CTI],pronto,done,Augusto Andrade Argolo,https://attachments.clickup.com/profilePictures/49124007_JJl.jpg,,
+Mapoteca,🚛 3.1. [M1] - Módulo 1: Implantação do Geonode (bd + servidor de mapas + aplicação) em DSV,pronto,done,,,,
+Mapoteca,20260805 - Ponto de Controle,concluído,closed,Diego Leite Carvalho; Augusto Andrade Argolo; Frederico Soares,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapoteca,Pesquisa / sondagem de fornecedores / parceiros (opcional),pronto,done,,,,
+Mapoteca,Pesquisa conceitual sobre o escopo,pronto,done,,,,
+Mapoteca,"Canva de negócio - (estrutura, valores, cliente, parceiros, viabilidade, riscos...)",pronto,done,,,,
+Mapoteca,Encerramento,aberto,open,,,,
+Mapoteca,Incremento (versões) / progresso,aberto,open,,,,
+Mapoteca,"Feedback / banco de cérebro (cliente, time, outras gerências) -> colaboração e adaptação",aberto,open,,,,
+Mapoteca,Revisão de métrica,aberto,open,,,,
+Mapoteca,Notas e encaminhamentos de reunião,aberto,open,,,,
+Mapoteca,Revisão de produto,aberto,open,,,,
+Mapoteca,coletar dados,aberto,open,,,,
+Mapoteca,"Contratos, Acordos, Termos e outros instrumentos com terceiros",andamento,custom,Fábio Augusto,https://attachments.clickup.com/profilePictures/49144835_Ke1.jpg,,
+Mapoteca,Cronograma detalhado,andamento,custom,,,,
+Mapoteca,0. Demandas do projeto,aberto,open,,,,
+Mapoteca,Novo Mapa: Embarcações por Distrito Naval,validação / ajuste,custom,Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,,
+Mapoteca,Atualização de mapa: ACIDENTES E FATOS DA NAVEGAÇÃO 2019-2023,andamento,custom,Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,,
+Mapoteca,Novo Mapa: Mapas de Acidentes Ambientais - Siema,andamento,custom,Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,,
+Mapoteca,Novos mapas e atualização,andamento,custom,,,,
+Mapoteca,Impressão,aberto,open,,,,
+Mapoteca,Apresentações,aberto,open,,,,
+Mapoteca,Entrevistas e eventos,aberto,open,,,,
+Mapoteca,Apoio à imprensa,aberto,open,,,,
+Mapoteca,Vídeo para o YouTube,aberto,open,,,,
+Mapoteca,Elaboração de apresentação,aberto,open,,,,
+Mapoteca,Aprovação da boneca,aberto,open,,,,
+Mapoteca,Orçamento gráfico,aberto,open,,,,
+Mapoteca,Palavras do Presidente,aberto,open,,,,
+Mapoteca,Revisão ortográfica,aberto,open,,,,
+Mapoteca,Diagramação,aberto,open,,,,
+Mapoteca,🛫8. Pós divulgação,aberto,open,,,,
+Mapoteca,"# 6. Revisão, validação e aprovações da DIEX",aberto,open,,,,
+Mapoteca,Projeto gráfico (GECOM),aberto,open,,,,
+Mapoteca,Kickoff,aberto,open,,,,
+Mapoteca,Plano de Comunicação,aberto,open,,,,
+Mapoteca,Plano de projeto ou canva de projeto,validação / ajuste,custom,Fábio Augusto,https://attachments.clickup.com/profilePictures/49144835_Ke1.jpg,,
+Mapoteca,Briefing,aberto,open,,,,
+Mapoteca,Daily (acompanhamento rápido),aberto,open,,,,
+Mapoteca,Retrospectiva do processo,aberto,open,,,,
+Mapoteca,4. Monitoramento e controle,aberto,open,,,,
+Mapoteca,3 Execução,aberto,open,,,,
+Mapoteca,1. Iniciação,pronto,done,,,,
+Mapoteca,2. Planejamento,aprovação,custom,,,,
+Mapa Sindical,Colocar tag do analytics e clarity para monitorar,pronto,done,Diego Leite Carvalho; Larissa Gonçalves,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,1757660400000
+Mapa Sindical,🚩 7. Entrega final - Mapa Sindical - Divulgação - 1.S,aberto,open,,,,1757401200000
+Mapa Sindical,🚛 5. Entrega técnica - 1. Mapa Sindical,aberto,open,,,,1756364400000
+Mapa Sindical,Carga do excel do mapa sindical,pronto,done,Lucas da Silva Ribas,https://attachments.clickup.com/profilePictures/82012439_yYK.jpg,,1748415600000
+Mapa Sindical,Mapa sindical - Formalização da 2º entrega para a DIRI,pronto,done,Larissa Gonçalves; Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,1747897200000
+Mapa Sindical,[TESTES E HOMOLOGAÇÃO]  - Mapa Sindical,pronto,done,Manuella Martinelli Viegas; Isabella Nicole Santana Silveira,https://attachments.clickup.com/profilePictures/82169901_HvE.jpg,1745564400000,1745996400000
+Mapa Sindical,Mapa Sindical - Formalização de 1º entrega para a DIRI,pronto,done,Diego Leite Carvalho; Larissa Gonçalves,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,1745305200000
+Mapa Sindical,Entrega técnica do Mapa Sindical com Virgílio,pronto,done,Diego Leite Carvalho; Larissa Gonçalves,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,1743145200000
+Mapa Sindical,Reunião de alinhamento com Creativity e DIRI,pronto,done,Luiz Carlos Gabriel Pacheco Castello Branco; Diego Leite Carvalho; Larissa Gonçalves,https://attachments.clickup.com/profilePictures/49109341_t49.jpg,,1739775600000
+Mapa Sindical,Atualização da planilha de cotação,pronto,done,Larissa Gonçalves,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,1737961200000
+Mapa Sindical,3º atualização do documento,pronto,done,Larissa Gonçalves,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,1737702000000
+Mapa Sindical,"Reunião com fábricas de software 24/01, 16h",pronto,done,Luiz Carlos Gabriel Pacheco Castello Branco; Diego Leite Carvalho; Larissa Gonçalves,https://attachments.clickup.com/profilePictures/49109341_t49.jpg,,1737702000000
+Mapa Sindical,2º atualização do documento,pronto,done,Larissa Gonçalves,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,1737702000000
+Mapa Sindical,Atualização do documento,pronto,done,Larissa Gonçalves,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,1737097200000
+Mapa Sindical,Mapa Sindical - Escopo,pronto,done,Diego Leite Carvalho; Larissa Gonçalves,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,1737097200000
+Mapa Sindical,Administração (CRUD) de sindicatos e Federações p/ ajuste da DIRI,aberto,open,,,,
+Mapa Sindical,Backlog,aberto,open,,,,
+Mapa Sindical,Preparar ambiente em produção,andamento,custom,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapa Sindical,Ajustes no banco,pronto,done,,,,
+Mapa Sindical,Implementação v4,pronto,done,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapa Sindical,Reunião para ajustes para a V4,pronto,done,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapa Sindical,Lista de ajuste/evolução v3,andamento,custom,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapa Sindical,Alterar pesquisa pricipal e alterar filtros de pesquisa,pronto,done,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapa Sindical,alterar pesquisa para federação,aberto,open,,,,
+Mapa Sindical,Montar documento de requisitos com os itens listados para evolução,pronto,done,,,,
+Mapa Sindical,Reunião feedback presidente e novas funcionalidades,pronto,done,Diego Leite Carvalho; Luiz Carlos Gabriel Pacheco Castello Branco,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapa Sindical,Criar nova visualização para pesquisa avançada,pronto,done,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapa Sindical,Ajuste nos emails das federações,pronto,done,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapa Sindical,remover “Não possui” para links que não existe e ajustar links novos,pronto,done,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapa Sindical,Sustentação,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Alterar o texto inicial,pronto,done,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapa Sindical,"13. O nome deve vir primeiro a sigla e embaixo o nome completo em fonte menor, acredito que 14 está satisfatório.",aberto,open,,,,
+Mapa Sindical,12. Acho que devemos diminuir de 18 para 16 o tamanho do nome da entidade no título do card e de 12 para 11 a fonte dos dados abaixo;,aberto,open,,,,
+Mapa Sindical,"11. Se na pesquisa resultar em muitos cards de federação e sindicatos, a tela ficará muito poluída, nesse caso, sugiro que os sindicatos apareçam ao lado do card da Federação em uma tarja apenas com o nome, cidade, estado e um botão para “+ detalhes”, ao clicar em + detalhes o card do sindicato abrirá na tela; Sendo assim, entendo que devemos colocar também uma explicação abaixo dos botões de pesquisa um texto como: “No resultado da pesquisa, será exibida inicialmente a Federação que representa os sindicatos da sua região. Ao lado, aparecerão os Sindicatos filiados a essa Federação. Para visualizar as informações completas de cada sindicato, clique em “+ Detalhes”. Caso não exista uma Federação no seu Estado, mas haja um Sindicato Nacional responsável, ele será exibido diretamente, já com todos os dados abertos para consulta.”",aberto,open,,,,
+Mapa Sindical,10. Solicitamos também os registros dos cliques no mapa interativo;,aberto,open,,,,
+Mapa Sindical,9. Toda federação e sindicato nacional também devem ter a base territorial descrita no card;,aberto,open,,,,
+Mapa Sindical,"8. A busca avançada não tem sentido de existir da forma que está. Sugiro que quando selecionada a busca avançada por nome da Federação e sindicato, que os cards apareçam na resposta sem a necessidade de selecionar o modal ou a UF;",aberto,open,,,,
+Mapa Sindical,7. Na pesquisa de modal faltou o modal “infraestrutura e logística”;,aberto,open,,,,
+Mapa Sindical,6. Onde está escrito modo* deve ser modal;,aberto,open,,,,
+Mapa Sindical,"5. Sugestão de incluir ao lado do mapa um botão SAIBA MAIS, para explicar que ao clicar nas partes do mapa será disponibilizada as federações/sindicatos sediados no estado (separados por modal);",aberto,open,,,,
+Mapa Sindical,4. Sugestão de ao clicar no estado apareça todas as federações e sindicatos nacionais separados por modal;,aberto,open,,,,
+Mapa Sindical,"3. Ao lado da opção de selecionar, eu sugiro a inclusão de uma “?” (interrogação) para explicar as opções;",aberto,open,,,,
+Mapa Sindical,2. Abaixo do título será necessário incluir um texto explicando sobre o sistema sindical e seu funcionamento (texto sugerido abaixo);,aberto,open,,,,
+Mapa Sindical,1. O título ao abrir a página tem que ser alterado para MAPA SINDICAL;,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Homologação da DIRI,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Arrumar responsividade da tela no google (IOS),aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - (Melhoria) Direcionar para ligação,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Adicionar mensagem quando não tiver resultado,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Opção Mapa Sindical no menu errado,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Botão de menu do lado contrario no celular,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - (Melhoria) Adicionar tag de federação nos sinticatos,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - (Melhoria) Confirmar pesquisa com enter,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Resultado aparecendo depois de limpar pesquisa,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Publicação sem imagem,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Falta de filtro,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Sem resultado,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Links errados,pronto,done,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapa Sindical,[Mapa Sindical] - Resultado muito para baixo,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Resultado errado,aberto,open,,,,
+Mapa Sindical,[Mapa Sindical] - Resultado cortado no celular,aberto,open,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+Mapa Sindical,Solicitar e acompanhar cotações,pronto,done,Larissa Gonçalves,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,
+CIRGEO 2,11-Alterar checklist para compreender novo procedimento para o fim do dia,pronto,done,Wanessa Fernandes; Diego Leite Carvalho; Danilo Nogueira Teixeira,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,1780038000000,1780038000000
+CIRGEO 2,10-Criar novo tipo de atendimento,pronto,done,Wanessa Fernandes; Danilo Nogueira Teixeira,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,1779951600000,1780038000000
+CIRGEO 2,Base de alertas,pronto,done,Frederico Soares,,1776841200000,1776841200000
+CIRGEO 2,"Definir em fevereiro o que mais será retirado, depende do teste do lado direito que está sendo feito no SISVIAS com o prazo 09/02",pronto,done,Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,1772780400000,1772780400000
+CIRGEO 2,Testes GEO.,pronto,done,,,,
+CIRGEO 2,13 - Distancia fim do ponto aviso passado maior que o permitido no banco de dados,pronto,done,Danilo Nogueira Teixeira; Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49124006_j3l.jpg,,
+CIRGEO 2,Validação GEO,pronto,done,Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,,
+CIRGEO 2,"12- Alteração no banco do tablet para não salvar mais dados de acostamento, faixa central e lateral",pronto,done,Danilo Nogueira Teixeira; Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49124006_j3l.jpg,,
+CIRGEO 2,Validação GEO,pronto,done,Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,,
+CIRGEO 2,Validação GEO,pronto,done,Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,,
+CIRGEO 2,"9-Incluir mensagem ao clicar em início do dia, almoço e fim do dia",rejeitado,custom,Wanessa Fernandes; Danilo Nogueira Teixeira,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,,
+CIRGEO 2,8-Alteração no Checklist,pronto,done,Wanessa Fernandes; Danilo Nogueira Teixeira,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,1778828400000,
+CIRGEO 2,Validação GEO + Apresentação pesquisadores,pronto,done,Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,,
+CIRGEO 2,7-Bloquei de botão importar dados + exclusão do processamento de tracking,pronto,done,Danilo Nogueira Teixeira; Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49124006_j3l.jpg,,
+CIRGEO 2,6-Alteração em faixa adicional,pronto,done,Wanessa Fernandes; Danilo Nogueira Teixeira,https://attachments.clickup.com/profilePictures/49144838_dkM.jpg,,
+CIRGEO 2,[CIRGeo 2] - Incluir ponto_aviso_passado no envio de dados,pronto,done,Diego Leite Carvalho; Lucas da Silva Ribas,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,
+CIRGEO 2,5-Remoção dos botões de faixa central e faixa lateral do módulo de coleta do CIRGeo2,pronto,done,Danilo Nogueira Teixeira; Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49124006_j3l.jpg,,
+CIRGEO 2,4-Alteração em obras de arte,pronto,done,Danilo Nogueira Teixeira; Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49124006_j3l.jpg,,
+CIRGEO 2,3-Marcar passagem,pronto,done,Danilo Nogueira Teixeira; Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49124006_j3l.jpg,1776841200000,
+CIRGEO 2,"Tarefas abertas, retirar o acostamento e barreira central, para a próxima Sprint, sp0426",pronto,done,Danilo Nogueira Teixeira,https://attachments.clickup.com/profilePictures/49124006_j3l.jpg,,
+CIRGEO 2,2-Remoção dos botões de barreira central do módulo de coleta do CIRGeo2,pronto,done,Danilo Nogueira Teixeira; Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49124006_j3l.jpg,1776841200000,
+CIRGEO 2,1-Remoção dos botões de acostamento do módulo de coleta do CIRGeo2,pronto,done,Danilo Nogueira Teixeira; Wanessa Fernandes,https://attachments.clickup.com/profilePictures/49124006_j3l.jpg,1771830000000,
