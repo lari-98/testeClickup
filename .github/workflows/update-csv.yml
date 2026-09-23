@@ -1,4 +1,3 @@
-# Coloque este arquivo em:  .github/workflows/update-csv.yml
 # Ele roda o generate-csv.js todo dia de manhã e commita o data.csv atualizado.
 
 name: Atualiza data.csv do ClickUp
@@ -24,6 +23,7 @@ jobs:
       - name: Gerar data.csv
         env:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
+          CLICKUP_PARENTS: ${{ secrets.CLICKUP_PARENTS }}
           CLICKUP_LIST_IDS: ${{ secrets.CLICKUP_LIST_IDS }}
           # ONLY_MILESTONES: "1"   # descomente para exportar só marcos
         run: node generate-csv.js
