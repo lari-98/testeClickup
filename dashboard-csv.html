@@ -73,9 +73,19 @@ select:disabled{opacity:.45;cursor:default}
 .ptrow{height:var(--row-h);position:relative;border-bottom:1px solid var(--line-soft);background:var(--panel-2)}
 .pspan{position:absolute;top:50%;transform:translateY(-50%);height:.5rem;border-radius:.3rem;background:rgba(59,111,224,.14)}
 /* marco como LINHA (similar ao Hoje) */
-.mline{position:absolute;top:.3rem;bottom:.3rem;width:0;border-left:2px solid var(--c);z-index:2}
-.mline::before{content:"";position:absolute;top:-.15rem;left:-.32rem;width:.6rem;height:.6rem;background:var(--c);border-radius:.14rem;transform:rotate(45deg)}
+.mline{position:absolute;top:.28rem;bottom:.28rem;width:.9rem;transform:translateX(-50%);z-index:2;cursor:pointer}
+.mline::after{content:"";position:absolute;left:50%;top:0;bottom:0;transform:translateX(-50%);border-left:2px solid var(--c)}
+.mline::before{content:"";position:absolute;top:-.15rem;left:50%;transform:translate(-50%,0) rotate(45deg);width:.6rem;height:.6rem;background:var(--c);border-radius:.14rem}
 .mline.late{--c:var(--late)}.mline.ontrack{--c:var(--ontrack)}.mline.done{--c:var(--done)}.mline.idle{--c:var(--idle)}
+.marker{cursor:pointer}
+/* caixinha de hover no estilo dos cards do topo */
+.tip{position:fixed;z-index:60;pointer-events:none;background:#fff;border:1px solid var(--line);border-left:.28rem solid var(--tc,var(--ink-dim));border-radius:.7rem;box-shadow:0 10px 28px rgba(20,30,60,.18);padding:.6rem .75rem;max-width:22rem;opacity:0;transition:opacity .1s;display:none}
+.tip.show{opacity:1;display:block}
+.tip .t-name{font-family:"Archivo";font-weight:700;font-size:.92rem;color:var(--ink);line-height:1.2;margin-bottom:.28rem;white-space:normal}
+.tip .t-row{display:flex;align-items:center;gap:.75rem;font-size:.78rem;color:var(--ink-dim)}
+.tip .t-status{display:inline-flex;align-items:center;gap:.35rem;font-family:"Archivo";font-weight:600;color:var(--tc)}
+.tip .t-dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--tc);box-shadow:inset 0 0 0 1.5px var(--tc)}
+.tip.idle .t-dot{background:transparent}
 
 /* ---- marcos em detalhe (expandido) ---- */
 .lrow{height:var(--row-h);display:flex;align-items:center;gap:.7rem;padding:0 1rem 0 2.2rem;border-bottom:1px solid var(--line-soft)}
@@ -129,6 +139,7 @@ footer .demo-tag{color:var(--now);font-weight:600}
 
   <section class="counters" id="counters"></section>
 
+  <div class="tip" id="tip"></div>
   <div class="board dropzone" id="board">
     <div class="board-head">
       <div class="head-info">
@@ -367,7 +378,7 @@ function render(){
     let bands=`<div class="pspan" style="left:${Math.min(x0,x1)}%;width:${Math.max(.6,Math.abs(x1-x0))}%"></div>`;
     for(const m of g.ms){
       const cls=classify(m,now);
-      bands+=`<div class="mline ${cls}" style="left:${pct(m.due,dom)}%" title="${escapeHtml(m.name)} — ${fmtDate(m.due)}"></div>`;
+      bands+=`<div class="mline ${cls}" style="left:${pct(m.due,dom)}%" data-n="${escapeHtml(m.name)}" data-d="${fmtDate(m.due)}" data-s="${cls}" data-sn="${escapeHtml(m.statusName)}"></div>`;
     }
     pt.innerHTML=bands; trackCol.appendChild(pt);
 
@@ -382,7 +393,7 @@ function render(){
         const bx0=pct(m.effStart,dom),bx1=pct(m.due,dom),left=Math.min(bx0,bx1),width=Math.max(.6,Math.abs(bx1-bx0));
         let fill=100; if(cls==="ontrack")fill=m.effStart<m.due?Math.max(4,Math.min(100,(now-m.effStart)/(m.due-m.effStart)*100)):100; if(cls==="idle")fill=0;
         r.innerHTML=`<div class="bar ${cls==="idle"?"idle":cls}" style="left:${left}%;width:${width}%"><div class="fill" style="width:${fill}%"></div></div>
-          <div class="marker ${cls}" style="left:${bx1}%"></div>${m.owner?faceHTML(m.owner,bx1):""}`;
+          <div class="marker ${cls}" style="left:${bx1}%" data-n="${escapeHtml(m.name)}" data-d="${fmtDate(m.due)}" data-s="${cls}" data-sn="${escapeHtml(m.statusName)}"></div>${m.owner?faceHTML(m.owner,bx1):""}`;
         trackCol.appendChild(r);
       }
     }
@@ -421,6 +432,31 @@ document.getElementById("expandBtn").addEventListener("click",()=>{
   if(EXPANDED.size>0)EXPANDED.clear(); else all.forEach(n=>EXPANDED.add(n));
   updateExpandBtn(); render();
 });
+// ---- caixinha de hover no marco (estilo card) ----
+const tip=document.getElementById("tip");
+const STLAB={late:"Atrasado",ontrack:"No prazo",done:"Concluído",idle:"Não iniciado"};
+const STVAR={late:"var(--late)",ontrack:"var(--ontrack)",done:"var(--done)",idle:"var(--idle)"};
+function tipPos(e){
+  const pad=12,r=tip.getBoundingClientRect();
+  let x=e.clientX+16,y=e.clientY+16;
+  if(x+r.width>innerWidth-pad)x=e.clientX-r.width-16;
+  if(y+r.height>innerHeight-pad)y=e.clientY-r.height-16;
+  tip.style.left=Math.max(pad,x)+"px"; tip.style.top=Math.max(pad,y)+"px";
+}
+function showTip(el,e){
+  const st=el.dataset.s||"ontrack", sn=el.dataset.sn?` · ${el.dataset.sn}`:"";
+  tip.className="tip "+st; tip.style.setProperty("--tc",STVAR[st]||"var(--ink-dim)");
+  tip.innerHTML=`<div class="t-name">${el.dataset.n||""}</div>
+    <div class="t-row"><span>${el.dataset.d||""}</span>
+    <span class="t-status"><span class="t-dot"></span>${STLAB[st]||""}${sn}</span></div>`;
+  tip.classList.add("show"); tipPos(e);
+}
+const trackEl=document.getElementById("trackCol");
+trackEl.addEventListener("mouseover",e=>{const m=e.target.closest(".mline,.marker");if(m)showTip(m,e);});
+trackEl.addEventListener("mousemove",e=>{if(tip.classList.contains("show")){const m=e.target.closest(".mline,.marker");if(m)tipPos(e);else tip.classList.remove("show");}});
+trackEl.addEventListener("mouseout",e=>{const m=e.target.closest(".mline,.marker");if(m)tip.classList.remove("show");});
+document.querySelector(".scroll").addEventListener("scroll",()=>tip.classList.remove("show"));
+
 // clique num projeto expande/recolhe aquele projeto
 document.getElementById("listCol").addEventListener("click",e=>{
   const p=e.target.closest(".prow"); if(!p)return;
