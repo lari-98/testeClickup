@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 :root{
   --bg:#eef1f7;--bg-2:#ffffff;--panel:#ffffff;--panel-2:#f3f6fc;--line:#dce2ee;--line-soft:#e9edf5;
@@ -19,7 +20,10 @@
 html{font-size:clamp(14px,1.05vw,25px);height:100%}
 body{margin:0;height:100%;font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:var(--bg);overflow:hidden}
 #app{display:flex;flex-direction:column;height:100%;padding:1.1rem 1.4rem 0.9rem}
-header{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;position:relative;overflow:hidden;min-height:4.6rem}
+.title-wrap,.controls{position:relative;z-index:1}
+.banner-globe{position:absolute;left:-2rem;top:50%;transform:translateY(-50%);width:24rem;height:11rem;opacity:.32;z-index:0;pointer-events:none;
+  -webkit-mask-image:linear-gradient(90deg,#000 55%,transparent 100%);mask-image:linear-gradient(90deg,#000 55%,transparent 100%)}
 .title-wrap{display:flex;flex-direction:column;gap:.15rem;min-width:0}
 .eyebrow{font-family:"Archivo";font-weight:600;font-size:.72rem;letter-spacing:.14em;color:var(--ink-faint)}
 h1{font-family:"Archivo";font-weight:800;font-size:1.55rem;line-height:1;margin:0;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -34,7 +38,8 @@ select:disabled{opacity:.45;cursor:default}
 .status-pill{display:flex;align-items:center;gap:.45rem;font-size:.76rem;color:var(--ink-dim);padding-left:.3rem}
 .live-dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--done)}
 .live-dot.demo{background:var(--now)} .live-dot.err{background:var(--late)}
-.counters{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin:1rem 0 .9rem}
+.metrics{display:flex;gap:.8rem;align-items:stretch;margin:1rem 0 .9rem;flex-wrap:wrap}
+.counters{flex:1 1 30rem;display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;min-width:0}
 .stat{position:relative;background:var(--bg-2);border:1px solid var(--line);border-radius:.9rem;padding:.85rem 1rem .95rem;overflow:hidden;box-shadow:0 1px 2px rgba(20,30,60,.04)}
 .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:.28rem;background:var(--c)}
 .stat .num{font-family:"Archivo";font-weight:800;font-size:2.4rem;line-height:.95;letter-spacing:-.02em;color:var(--c)}
@@ -86,10 +91,14 @@ select:disabled{opacity:.45;cursor:default}
 .tip .t-status{display:inline-flex;align-items:center;gap:.35rem;font-family:"Archivo";font-weight:600;color:var(--tc)}
 .tip .t-dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--tc);box-shadow:inset 0 0 0 1.5px var(--tc)}
 .tip.idle .t-dot{background:transparent}
+.tip .t-hint{margin-top:.35rem;padding-top:.35rem;border-top:1px solid var(--line-soft);font-size:.68rem;color:var(--tc);font-weight:600}
 
 /* ---- marcos em detalhe (expandido) ---- */
 .lrow{height:var(--row-h);display:flex;align-items:center;gap:.7rem;padding:0 1rem 0 2.2rem;border-bottom:1px solid var(--line-soft)}
-.lrow .mname{font-weight:500;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
+.lrow .mname{font-weight:500;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0;color:var(--ink);text-decoration:none}
+a.mname:hover{color:var(--ontrack);text-decoration:underline}
+a.mname .ext{color:var(--ink-faint);font-size:.72rem}
+a.mname:hover .ext{color:var(--ontrack)}
 .mdate{font-family:"Archivo";font-weight:600;font-size:.8rem;color:var(--ink-dim);flex:0 0 auto}
 .mdate.late{color:var(--late)}
 .avatar{width:1.6rem;height:1.6rem;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;font-family:"Archivo";font-weight:700;font-size:.68rem;color:#12203f;border:1.5px solid rgba(0,0,0,.06)}
@@ -118,6 +127,7 @@ footer .demo-tag{color:var(--now);font-weight:600}
 <body>
 <div id="app">
   <header>
+    <canvas id="globe" class="banner-globe" aria-hidden="true"></canvas>
     <div class="title-wrap">
       <div class="eyebrow">CLICKUP · PAINEL DE EXECUÇÃO</div>
       <h1 id="projTitle">Projetos DIEX</h1>
@@ -137,7 +147,9 @@ footer .demo-tag{color:var(--now);font-weight:600}
     </div>
   </header>
 
-  <section class="counters" id="counters"></section>
+  <section class="metrics">
+    <div class="counters" id="counters"></div>
+  </section>
 
   <div class="tip" id="tip"></div>
   <div class="board dropzone" id="board">
@@ -188,7 +200,8 @@ const CONFIG = {
     due:    ["due date","due date (unix)","data de entrega","data de vencimento","prazo","vencimento","due"],
     start:  ["start date","start date (unix)","data de início","data de inicio","início","inicio","start"],
     assignee:["assignees","assignee","responsável","responsavel","responsáveis","responsaveis","atribuído a","atribuido a"],
-    list:["list","lista","projeto","project","list name","nome da lista"]
+    list:["list","lista","projeto","project","list name","nome da lista"],
+    url:["task url","url","link","task link","url da tarefa"]
   }
 };
 const CURR_YEAR = new Date().getFullYear();
@@ -259,7 +272,7 @@ function csvToTasks(text){
     name:findCol(headers,CONFIG.HEADERS.name), status:findCol(headers,CONFIG.HEADERS.status),
     statusType:findCol(headers,CONFIG.HEADERS.statusType), due:findCol(headers,CONFIG.HEADERS.due),
     start:findCol(headers,CONFIG.HEADERS.start), assignee:findCol(headers,CONFIG.HEADERS.assignee),
-    list:findCol(headers,CONFIG.HEADERS.list)
+    list:findCol(headers,CONFIG.HEADERS.list), url:findCol(headers,CONFIG.HEADERS.url)
   };
   if(ci.name<0) throw new Error('Não achei a coluna do nome da tarefa. Cabeçalhos lidos: '+headers.join(" | "));
   if(ci.due<0)  throw new Error('Não achei a coluna de data de entrega (due date). Cabeçalhos lidos: '+headers.join(" | "));
@@ -274,7 +287,8 @@ function csvToTasks(text){
       statusName, statusType:(ci.statusType>=0?(row[ci.statusType]||"open"):"open"),
       idleFlag: CONFIG.NOT_STARTED_STATUSES.includes(statusName.toLowerCase()),
       owner: mkOwner(ci.assignee>=0?firstAssignee(row[ci.assignee]):null),
-      project: (ci.list>=0 ? (row[ci.list]||"").trim() : "") || "Sem projeto"
+      project: (ci.list>=0 ? (row[ci.list]||"").trim() : "") || "Sem projeto",
+      url: ci.url>=0 ? (row[ci.url]||"").trim() : ""
     });
   }
   if(out.length===0) throw new Error("Nenhuma tarefa com data de entrega encontrada no CSV.");
@@ -378,7 +392,7 @@ function render(){
     let bands=`<div class="pspan" style="left:${Math.min(x0,x1)}%;width:${Math.max(.6,Math.abs(x1-x0))}%"></div>`;
     for(const m of g.ms){
       const cls=classify(m,now);
-      bands+=`<div class="mline ${cls}" style="left:${pct(m.due,dom)}%" data-n="${escapeHtml(m.name)}" data-d="${fmtDate(m.due)}" data-s="${cls}" data-sn="${escapeHtml(m.statusName)}"></div>`;
+      bands+=`<div class="mline ${cls}" style="left:${pct(m.due,dom)}%" data-n="${escapeHtml(m.name)}" data-d="${fmtDate(m.due)}" data-s="${cls}" data-sn="${escapeHtml(m.statusName)}" data-u="${escapeHtml(m.url||"")}"></div>`;
     }
     pt.innerHTML=bands; trackCol.appendChild(pt);
 
@@ -387,13 +401,13 @@ function render(){
       for(const m of g.ms){
         const cls=classify(m,now),lt=cls==="late";
         const l=document.createElement("div");l.className="lrow";
-        l.innerHTML=`<span class="sdot ${cls}"></span>${avatarHTML(m.owner)}<span class="mname">${escapeHtml(m.name)}</span><span class="mdate ${lt?"late":""}">${fmtDate(m.due)}</span>`;
+        l.innerHTML=`<span class="sdot ${cls}"></span>${avatarHTML(m.owner)}${nameHTML(m)}<span class="mdate ${lt?"late":""}">${fmtDate(m.due)}</span>`;
         listCol.appendChild(l);
         const r=document.createElement("div");r.className="trow";
         const bx0=pct(m.effStart,dom),bx1=pct(m.due,dom),left=Math.min(bx0,bx1),width=Math.max(.6,Math.abs(bx1-bx0));
         let fill=100; if(cls==="ontrack")fill=m.effStart<m.due?Math.max(4,Math.min(100,(now-m.effStart)/(m.due-m.effStart)*100)):100; if(cls==="idle")fill=0;
         r.innerHTML=`<div class="bar ${cls==="idle"?"idle":cls}" style="left:${left}%;width:${width}%"><div class="fill" style="width:${fill}%"></div></div>
-          <div class="marker ${cls}" style="left:${bx1}%" data-n="${escapeHtml(m.name)}" data-d="${fmtDate(m.due)}" data-s="${cls}" data-sn="${escapeHtml(m.statusName)}"></div>${m.owner?faceHTML(m.owner,bx1):""}`;
+          <div class="marker ${cls}" style="left:${bx1}%" data-n="${escapeHtml(m.name)}" data-d="${fmtDate(m.due)}" data-s="${cls}" data-sn="${escapeHtml(m.statusName)}" data-u="${escapeHtml(m.url||"")}"></div>${m.owner?faceHTML(m.owner,bx1):""}`;
         trackCol.appendChild(r);
       }
     }
@@ -403,6 +417,9 @@ function render(){
   document.getElementById("foot").innerHTML=(SOURCE==="demo"?'<span class="demo-tag">● MODO DEMO</span> — dados de exemplo. ':(FILENAME?('CSV: '+escapeHtml(FILENAME)+' · '):''))+"Atualizado às "+stamp.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
   document.getElementById("footRight").textContent=SOURCE==="demo"?"Arraste seu data.csv para começar":"Re-lê o arquivo a cada "+CONFIG.RELOAD_MINUTES+" min";
 }
+function nameHTML(m){return m.url
+  ? `<a class="mname" href="${escapeHtml(m.url)}" target="_blank" rel="noopener" title="Abrir no ClickUp">${escapeHtml(m.name)} <span class="ext">↗</span></a>`
+  : `<span class="mname">${escapeHtml(m.name)}</span>`;}
 function avatarHTML(o){return o?`<span class="avatar" style="background:${o.color}">${o.initials}</span>`:`<span class="avatar" style="background:#dfe5f2;color:#8a95ac">–</span>`;}
 function faceHTML(o,x){return o?`<span class="bar-face" style="left:${x}%;background:${o.color}">${o.initials}</span>`:"";}
 function fmtDate(ms){const dt=new Date(ms);return String(dt.getDate()).padStart(2,"0")+"/"+String(dt.getMonth()+1).padStart(2,"0")+"/"+String(dt.getFullYear()).slice(2);}
@@ -446,15 +463,17 @@ function tipPos(e){
 function showTip(el,e){
   const st=el.dataset.s||"ontrack", sn=el.dataset.sn?` · ${el.dataset.sn}`:"";
   tip.className="tip "+st; tip.style.setProperty("--tc",STVAR[st]||"var(--ink-dim)");
+  const hint=el.dataset.u?`<div class="t-hint">Clique para abrir no ClickUp ↗</div>`:"";
   tip.innerHTML=`<div class="t-name">${el.dataset.n||""}</div>
     <div class="t-row"><span>${el.dataset.d||""}</span>
-    <span class="t-status"><span class="t-dot"></span>${STLAB[st]||""}${sn}</span></div>`;
+    <span class="t-status"><span class="t-dot"></span>${STLAB[st]||""}${sn}</span></div>${hint}`;
   tip.classList.add("show"); tipPos(e);
 }
 const trackEl=document.getElementById("trackCol");
 trackEl.addEventListener("mouseover",e=>{const m=e.target.closest(".mline,.marker");if(m)showTip(m,e);});
 trackEl.addEventListener("mousemove",e=>{if(tip.classList.contains("show")){const m=e.target.closest(".mline,.marker");if(m)tipPos(e);else tip.classList.remove("show");}});
 trackEl.addEventListener("mouseout",e=>{const m=e.target.closest(".mline,.marker");if(m)tip.classList.remove("show");});
+trackEl.addEventListener("click",e=>{const m=e.target.closest(".mline,.marker");if(m&&m.dataset.u)window.open(m.dataset.u,"_blank","noopener");});
 document.querySelector(".scroll").addEventListener("scroll",()=>tip.classList.remove("show"));
 
 // clique num projeto expande/recolhe aquele projeto
@@ -491,6 +510,48 @@ buildMonthSelect();
 applyTasks(buildDemo(),"","demo"); setState("demo");
 tryAutoLoad();
 setInterval(()=>{ if(SOURCE!=="demo") tryAutoLoad(); }, CONFIG.RELOAD_MINUTES*60*1000);
+
+/* ============================================================================
+   OBJETO 3D — globo giratório com pinos (tema geo). Sem arquivos externos.
+   Se o three.js não carregar, o card é escondido (nada quebra).
+   ============================================================================ */
+function init3D(){
+  const canvas=document.getElementById("globe");
+  if(!window.THREE || !canvas){ if(canvas)canvas.style.display="none"; return; }
+  const THREE=window.THREE;
+  const box=()=>({w:canvas.clientWidth||384,h:canvas.clientHeight||176});
+  let {w,h}=box();
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+  renderer.setSize(w,h,false);
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(42,w/h,0.1,100); camera.position.set(0,0,7.2);
+  const world=new THREE.Group(); scene.add(world);
+
+  // paleta CLARA e discreta (marca d'água sobre fundo branco)
+  const core=new THREE.Mesh(new THREE.SphereGeometry(2.4,32,24),
+    new THREE.MeshBasicMaterial({color:0xdbe6fb,transparent:true,opacity:0.5}));
+  world.add(core);
+  const grid=new THREE.Mesh(new THREE.SphereGeometry(2.42,20,14),
+    new THREE.MeshBasicMaterial({color:0x9db2d8,wireframe:true,transparent:true,opacity:0.8}));
+  world.add(grid);
+  const ring=new THREE.Mesh(new THREE.RingGeometry(3.2,3.26,64),
+    new THREE.MeshBasicMaterial({color:0xbfe3cf,side:THREE.DoubleSide,transparent:true,opacity:0.8}));
+  ring.rotation.x=Math.PI/2.1; world.add(ring);
+  const pinColors=[0x9db2d8,0xbfe3cf,0xf2c98a,0xbcc6ff,0x9db2d8];
+  pinColors.forEach((c,i)=>{
+    const phi=Math.acos(-1+(2*(i+0.5))/pinColors.length), theta=Math.PI*(1+Math.sqrt(5))*i;
+    const p=new THREE.Mesh(new THREE.SphereGeometry(0.15,12,12),new THREE.MeshBasicMaterial({color:c}));
+    p.position.setFromSphericalCoords(2.5,phi,theta); world.add(p);
+  });
+
+  world.rotation.x=0.4;
+  let ry=0;
+  function resize(){const b=box();renderer.setSize(b.w,b.h,false);camera.aspect=b.w/b.h;camera.updateProjectionMatrix();}
+  addEventListener("resize",resize);
+  (function loop(){ ry+=0.005; world.rotation.y=ry; renderer.render(scene,camera); requestAnimationFrame(loop); })();
+}
+if(document.readyState!=="loading") init3D(); else addEventListener("DOMContentLoaded",init3D);
 </script>
 </body>
 </html>
