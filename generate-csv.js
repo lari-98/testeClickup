@@ -31,6 +31,9 @@ const CLICKUP = "https://api.clickup.com/api/v2";
 const TOKEN = process.env.CLICKUP_TOKEN;
 const OUT_FILE = process.env.OUT_FILE || "data.csv";
 const ONLY_MILESTONES = process.env.ONLY_MILESTONES === "1";
+// Modo tarefa-mãe (padrões = o que normalmente se quer numa TV de marcos):
+const PARENT_DIRECT_ONLY = process.env.PARENT_DIRECT_ONLY !== "0";       // só filhas de 1º nível
+const PARENT_MILESTONES_ONLY = process.env.PARENT_MILESTONES_ONLY !== "0"; // só as que são "marco"
 
 /** "id,id" | '{"nome":"id"}' | '["id"]'  →  [{ id, name|null }] */
 function parseColl(raw) {
@@ -141,8 +144,12 @@ function toCSV(rows) {
 
       const all = await getListWithSubtasks(listId);
       const byId = new Map(all.map(t => [t.id, t]));
-      let kids = all.filter(t => t.id !== P.id && isDescendant(t, P.id, byId));
-      if (ONLY_MILESTONES) kids = kids.filter(t => t.milestone);
+      // filhas de 1º nível (parent === mãe) ou todas as descendentes
+      let kids = PARENT_DIRECT_ONLY
+        ? all.filter(t => t.parent === P.id)
+        : all.filter(t => t.id !== P.id && isDescendant(t, P.id, byId));
+      // só marcos (flag milestone do ClickUp)
+      if (PARENT_MILESTONES_ONLY || ONLY_MILESTONES) kids = kids.filter(t => t.milestone);
 
       for (const t of kids) {
         if (seen.has(t.id)) continue; seen.add(t.id);
