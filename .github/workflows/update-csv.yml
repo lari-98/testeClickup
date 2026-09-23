@@ -24,9 +24,6 @@ jobs:
         env:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
           CLICKUP_PARENTS: ${{ secrets.CLICKUP_PARENTS }}
-                  env:
-          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
-          CLICKUP_PARENTS: ${{ secrets.CLICKUP_PARENTS }}
           PARENT_MILESTONES_ONLY: "0"
         run: node generate-csv.js
 
