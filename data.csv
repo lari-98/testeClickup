@@ -1,1 +1,32 @@
 List,Task Name,Status,Status Type,Assignees,Assignee Avatar,Start Date,Due Date,Task URL
+Prêmio,Correções e melhorias 2026 - Solicitadas pela Aline GECOM - SEST SENAT,andamento,custom,,,,1797577200000,https://app.clickup.com/t/86aj085d5
+PAP,🛵[PAP/CNT] Entrega técnica versão 6.0,andamento,custom,Giulia Milena Garcia da Silveira,https://attachments.clickup.com/profilePictures/99958099_pRQ.jpg,,1809068400000,https://app.clickup.com/t/86ae3w8xh
+PAP,🛵[PAP/CNT] Entrega técnica versão 7.0,aberto,open,Giulia Milena Garcia da Silveira,https://attachments.clickup.com/profilePictures/99958099_pRQ.jpg,,,https://app.clickup.com/t/86ae3w8y5
+PAP,🛵[PAP/CNT] Entrega técnica versão 5.0,aberto,open,Giulia Milena Garcia da Silveira,https://attachments.clickup.com/profilePictures/99958099_pRQ.jpg,,,https://app.clickup.com/t/86ae3w68z
+PAP,🛵[PAP/CNT] Entrega técnica versão 4.0,aberto,open,Giulia Milena Garcia da Silveira,https://attachments.clickup.com/profilePictures/99958099_pRQ.jpg,,,https://app.clickup.com/t/86ae3w4q5
+PAP,🛵[PAP/CNT] Entrega técnica versão 3.0,pronto,done,Giulia Milena Garcia da Silveira,https://attachments.clickup.com/profilePictures/99958099_pRQ.jpg,,,https://app.clickup.com/t/86ae3vzfj
+Backup,⛽ 5. Entrega técnica - 1. Implementação de boas práticas de backup e armazenamento,parado,custom,Luiz Carlos Gabriel Pacheco Castello Branco,https://attachments.clickup.com/profilePictures/49109341_t49.jpg,,1780124400000,https://app.clickup.com/t/86a69266m
+Portal da CNT,🚛 5. Entrega técnica - 1. Portal da CNT,pronto,done,Luiz Carlos Gabriel Pacheco Castello Branco,https://attachments.clickup.com/profilePictures/49109341_t49.jpg,,1773990000000,https://app.clickup.com/t/86a6926em
+Portal da CNT,🚛 3.2. [M2] - Backend,pronto,done,,,,,https://app.clickup.com/t/86a692e97
+Portal da CNT,🚛 3.1. [M1] - Frontend,pronto,done,,,,,https://app.clickup.com/t/86a6926eg
+Encurtador de link,🚛 5. Entrega técnica - Gerador de QRCode,aberto,open,Luiz Carlos Gabriel Pacheco Castello Branco,https://attachments.clickup.com/profilePictures/49109341_t49.jpg,,1797577200000,https://app.clickup.com/t/86a692fmu
+Encurtador de link,🚛 3.4. [M4] - Workspace,andamento,custom,,,,,https://app.clickup.com/t/86a98mj74
+Encurtador de link,🚛 3.3. [M3] - Gerar URL/Página de redirecionamento,pronto,done,,,,,https://app.clickup.com/t/86a692fke
+Encurtador de link,🚛 3.2. [M2] - Encurtador de link,andamento,custom,,,,,https://app.clickup.com/t/86a692fj9
+Encurtador de link,🚛 3.1. [M1] - Login,pronto,done,,,,,https://app.clickup.com/t/86a692fgr
+SISREDE,🚛 🚩 5. Entrega técnica - 1. SISREDE,aberto,open,Luiz Carlos Gabriel Pacheco Castello Branco,https://attachments.clickup.com/profilePictures/49109341_t49.jpg,,1797577200000,https://app.clickup.com/t/86a6rcpqf
+SISREDE,🚛 3.1 [M1] - Gerenciamento de contas de usuário (User Delegation),parado,custom,Virgílio Matos; Diego Leite Carvalho,,1751353200000,1759215600000,https://app.clickup.com/t/86a2f2ky4
+SISVIAS,3. SISVIAS - Execução,pronto,done,Larissa Gonçalves,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,1783666800000,https://app.clickup.com/t/86ad0gfd0
+SISVIAS,🚛 6. Entrega técnica - SISVIAS (Qualidade 2.0) 2026 - 2º versão,pronto,done,,,,1781506800000,https://app.clickup.com/t/86ahhp5mq
+SISVIAS,🚛 5. Entrega técnica - SISVIAS (Qualidade 2.0) 2026 - 1º versão,pronto,done,,,,1778223600000,https://app.clickup.com/t/86ad0gfdc
+SISVIAGENS,"🚛 3.11. [M11] - Configurações (Prazos, Valores, Perfis)",aberto,open,,,,1798009200000,https://app.clickup.com/t/86ajuz96k
+SISVIAGENS,🚛 3.8. [M8] - Módulo 8: Prestação de contas,aberto,open,,,,1797145200000,https://app.clickup.com/t/86ak8gpb1
+SISVIAGENS,🚛 3.9. [M9] - Módulo 9: Relatório,aberto,open,,,,1797145200000,https://app.clickup.com/t/86ajn082g
+SISVIAGENS,🚛 3.7. [M7] - Módulo 7: Pagamento,aberto,open,,,,1795935600000,https://app.clickup.com/t/86ajn05fy
+SISVIAGENS,🚛 3.6. [M6] - Módulo 6: Emissão,andamento,custom,Virgílio Matos,,,1795935600000,https://app.clickup.com/t/86ajn045k
+SISVIAGENS,🚛 3.5. [M5] - Módulo 5: Aprovação,andamento,custom,Virgílio Matos,,,1794726000000,https://app.clickup.com/t/86ajn03hr
+SISVIAGENS,🚛 3.4. [M4] - Módulo 4: Cotação,andamento,custom,Virgílio Matos,,,1794726000000,https://app.clickup.com/t/86ajmwg56
+SISVIAGENS,🚛 3.3. [M3] - Módulo 3: Formulário de Solicitação,validação / ajuste,custom,Larissa Gonçalves; ROSANA BORGES DO NASCIMENTO ROSA,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,1792306800000,https://app.clickup.com/t/86ajmwfcv
+SISVIAGENS,🚛 3.2. [M2] - Módulo 2: Telas iniciais (Minhas solicitações e Pendências),validação / ajuste,custom,ROSANA BORGES DO NASCIMENTO ROSA; Larissa Gonçalves,https://attachments.clickup.com/profilePictures/49197710_zoN.jpg,,1792306800000,https://app.clickup.com/t/86ajmweyr
+SISVIAGENS,🚛 5. Sisviagens,aberto,open,,,,1761894000000,https://app.clickup.com/t/86ahv9n2v
+SISVIAGENS,🚛 3.1. [M1] - Módulo 1: POC,pronto,done,Luiz Carlos Gabriel Pacheco Castello Branco; Larissa Gonçalves; ROSANA BORGES DO NASCIMENTO ROSA,https://attachments.clickup.com/profilePictures/49109341_t49.jpg,,,https://app.clickup.com/t/86ahv9myt
