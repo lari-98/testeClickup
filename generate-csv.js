@@ -34,6 +34,10 @@ const ONLY_MILESTONES = process.env.ONLY_MILESTONES === "1";
 // Modo tarefa-mãe (padrões = o que normalmente se quer numa TV de marcos):
 const PARENT_DIRECT_ONLY = process.env.PARENT_DIRECT_ONLY !== "0";       // só filhas de 1º nível
 const PARENT_MILESTONES_ONLY = process.env.PARENT_MILESTONES_ONLY !== "0"; // só as que são "marco"
+// O que conta como "marco": milestone nativo + tipos personalizados cujo NOME casa com estes termos.
+const MS_NAMES = (process.env.MILESTONE_TYPE_NAMES || "marco,milestone").toLowerCase().split(/[,\s]+/).filter(Boolean);
+const MS_IDS_ENV = (process.env.MILESTONE_TYPE_IDS || "").split(/[,\s]+/).filter(Boolean).map(Number); // opcional: fixar ids
+const CLICKUP_TEAM_ID = process.env.CLICKUP_TEAM_ID || "";              // opcional: se tiver +de 1 workspace
 
 /** "id,id" | '{"nome":"id"}' | '["id"]'  →  [{ id, name|null }] */
 function parseColl(raw) {
@@ -86,6 +90,32 @@ async function getListWithSubtasks(listId) {
   return listCache.get(listId);
 }
 
+/** Descobre quais custom_item_id contam como "marco" (nativo id 1 + tipos cujo nome casa) */
+let _marcoIds = null;
+async function marcoIds() {
+  if (_marcoIds) return _marcoIds;
+  const ids = new Set([1, ...MS_IDS_ENV]); // 1 = milestone nativo
+  try {
+    let teamId = CLICKUP_TEAM_ID;
+    if (!teamId) { const t = await api(`/team`); teamId = t.teams && t.teams[0] && t.teams[0].id; }
+    if (teamId) {
+      const r = await api(`/team/${teamId}/custom_item`);
+      const items = r.custom_items || r || [];
+      console.log(`  tipos de tarefa no workspace: ${items.map(i => i.id + "=" + i.name).join(", ") || "(nenhum personalizado)"}`);
+      for (const it of items) {
+        const nm = (it.name || "").toLowerCase();
+        if (MS_NAMES.some(n => nm.includes(n))) ids.add(it.id);
+      }
+    }
+  } catch (e) { console.log("  (aviso: não consegui listar tipos personalizados — usando só o milestone nativo) " + (e.message || e)); }
+  console.log(`  contam como marco os custom_item_id: ${[...ids].join(", ")}`);
+  _marcoIds = ids; return ids;
+}
+async function keepMarcos(list) {
+  const ids = await marcoIds();
+  return list.filter(t => t.milestone === true || ids.has(t.custom_item_id));
+}
+
 /** true se `task` descende de `parentId` seguindo a cadeia de `parent` */
 function isDescendant(task, parentId, byId) {
   let p = task.parent, guard = 0;
@@ -95,6 +125,11 @@ function isDescendant(task, parentId, byId) {
     p = pt ? pt.parent : null;
   }
   return false;
+}
+
+/** "marco" = milestone nativo (flag) OU qualquer custom item type (ex.: losango "Marco") */
+function isMarco(t) {
+  return t.milestone === true || (t.custom_item_id !== null && t.custom_item_id !== undefined);
 }
 
 function cell(v) {
@@ -127,7 +162,7 @@ function toCSV(rows) {
     // ---- A) listas inteiras (nível superior) ----
     for (const L of LISTS) {
       let batch = await fetchListTasks(L.id, false);
-      if (ONLY_MILESTONES) batch = batch.filter(t => t.milestone);
+      if (ONLY_MILESTONES) batch = await keepMarcos(batch);
       for (const t of batch) {
         if (seen.has(t.id)) continue; seen.add(t.id);
         t.__group = L.name || (t.list && t.list.name) || ("Lista " + L.id);
@@ -149,8 +184,8 @@ function toCSV(rows) {
       let kids = PARENT_DIRECT_ONLY
         ? all.filter(t => t.parent === P.id)
         : all.filter(t => t.id !== P.id && isDescendant(t, P.id, byId));
-      // só marcos (flag milestone do ClickUp)
-      if (PARENT_MILESTONES_ONLY || ONLY_MILESTONES) kids = kids.filter(t => t.milestone);
+      // só marcos: milestone nativo OU tipo personalizado "Marco"
+      if (PARENT_MILESTONES_ONLY || ONLY_MILESTONES) kids = await keepMarcos(kids);
 
       for (const t of kids) {
         if (seen.has(t.id)) continue; seen.add(t.id);
