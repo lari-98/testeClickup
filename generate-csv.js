@@ -138,7 +138,7 @@ function cell(v) {
 }
 
 function toCSV(rows) {
-  const header = ["List", "Task Name", "Status", "Status Type", "Assignees", "Assignee Avatar", "Start Date", "Due Date", "Task URL"];
+  const header = ["List", "Task Name", "Status", "Status Type", "Status Color", "Assignees", "Assignee Avatar", "Start Date", "Due Date", "Task URL", "Group Status", "Group Status Color"];
   const out = [header.join(",")];
   for (const t of rows) {
     const assignees = (t.assignees || []).map(a => a.username || a.email || "").filter(Boolean);
@@ -146,9 +146,11 @@ function toCSV(rows) {
     out.push([
       cell(t.__group), cell(t.name),
       cell(t.status ? t.status.status : ""), cell(t.status ? t.status.type : ""),
+      cell(t.status ? t.status.color : ""),
       cell(assignees.join("; ")), cell(avatar),
       cell(t.start_date || ""), cell(t.due_date || ""),
-      cell(t.url || "")
+      cell(t.url || ""),
+      cell(t.__groupStatus || ""), cell(t.__groupColor || "")
     ].join(","));
   }
   return out.join("\r\n") + "\r\n";
@@ -177,6 +179,8 @@ function toCSV(rows) {
       const listId = parent.list && parent.list.id;
       if (!listId) throw new Error(`Não achei a lista da tarefa-mãe ${P.id}.`);
       const group = P.name || parent.name || ("Tarefa " + P.id);
+      const gStatus = parent.status ? parent.status.status : "";
+      const gColor  = parent.status ? parent.status.color : "";
 
       const all = await getListWithSubtasks(listId);
       const byId = new Map(all.map(t => [t.id, t]));
@@ -189,7 +193,7 @@ function toCSV(rows) {
 
       for (const t of kids) {
         if (seen.has(t.id)) continue; seen.add(t.id);
-        t.__group = group;
+        t.__group = group; t.__groupStatus = gStatus; t.__groupColor = gColor;
         rows.push(t);
       }
       console.log(`  [mãe]   ${group}: ${kids.length} subtarefas`);
