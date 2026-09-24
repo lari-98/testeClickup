@@ -38,8 +38,8 @@ Encurtador de link,🚛 3.2. [M2] - Encurtador de link,andamento,custom,,,,,http
 Encurtador de link,🚛 3.1. [M1] - Login,pronto,done,,,,,https://app.clickup.com/t/86a692fgr
 SISREDE,🚛 🚩 5. Entrega técnica - 1. SISREDE,aberto,open,Luiz Carlos Gabriel Pacheco Castello Branco,https://attachments.clickup.com/profilePictures/49109341_t49.jpg,,1797577200000,https://app.clickup.com/t/86a6rcpqf
 SISREDE,🚛 3.1 [M1] - Gerenciamento de contas de usuário (User Delegation),parado,custom,Virgílio Matos; Diego Leite Carvalho,,1751353200000,1759215600000,https://app.clickup.com/t/86a2f2ky4
-Anuário,🚛 3.2 [M2] - Criar frontend,aberto,open,,,,,https://app.clickup.com/t/86adf9zcd
-Anuário,🚛 3.1 [M1] - Refatoração do Anuário em .NET e reorganização da base,aberto,open,,,,,https://app.clickup.com/t/86acvfabu
+Anuário,🚛 3.2 [M2] - Criar frontend,aberto,open,,,,1813906800000,https://app.clickup.com/t/86adf9zcd
+Anuário,🚛 3.1 [M1] - Refatoração do Anuário em .NET e reorganização da base,aberto,open,,,,1813906800000,https://app.clickup.com/t/86acvfabu
 SISVIAS,3. SISVIAS - Execução,pronto,done,Larissa Gonçalves,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,1783666800000,https://app.clickup.com/t/86ad0gfd0
 SISVIAS,🚛 6. Entrega técnica - SISVIAS (Qualidade 2.0) 2026 - 2º versão,pronto,done,,,,1781506800000,https://app.clickup.com/t/86ahhp5mq
 SISVIAS,🚛 5. Entrega técnica - SISVIAS (Qualidade 2.0) 2026 - 1º versão,pronto,done,,,,1778223600000,https://app.clickup.com/t/86ad0gfdc
@@ -54,5 +54,12 @@ SISVIAGENS,🚛 3.3. [M3] - Módulo 3: Formulário de Solicitação,validação 
 SISVIAGENS,🚛 3.2. [M2] - Módulo 2: Telas iniciais (Minhas solicitações e Pendências),validação / ajuste,custom,ROSANA BORGES DO NASCIMENTO ROSA; Larissa Gonçalves,https://attachments.clickup.com/profilePictures/49197710_zoN.jpg,,1792306800000,https://app.clickup.com/t/86ajmweyr
 SISVIAGENS,🚛 5. Sisviagens,aberto,open,,,,1761894000000,https://app.clickup.com/t/86ahv9n2v
 SISVIAGENS,🚛 3.1. [M1] - Módulo 1: POC,pronto,done,Luiz Carlos Gabriel Pacheco Castello Branco; Larissa Gonçalves; ROSANA BORGES DO NASCIMENTO ROSA,https://attachments.clickup.com/profilePictures/49109341_t49.jpg,,,https://app.clickup.com/t/86ahv9myt
+Mapoteca,🚛 3.7. [M7] - Módulo 7: Avaliar sincronização de dados com CNT Data,aberto,open,,,,,https://app.clickup.com/t/86ak1tbn6
+Mapoteca,🚛 3.6. [M6] - Módulo 6: Integração com o site do Atlas,aberto,open,,,,,https://app.clickup.com/t/86ak1tb9j
+Mapoteca,🚛 3.5. [M5] - Módulo 5: Integração com Security CNT,validação / ajuste,custom,,,,,https://app.clickup.com/t/86ak1t9ku
+Mapoteca,🚛 3.4. [M4] - Módulo 4: Implantação do Geonode (bd + servidor de mapas + aplicação) em PRD,aberto,open,,,,,https://app.clickup.com/t/86ak1t95k
+Mapoteca,🚛 3.3. [M3] - Módulo 3: Implantação do Geonode (bd + servidor de mapas + aplicação) em HMG,andamento,custom,,,,,https://app.clickup.com/t/86ak1t8vj
+Mapoteca,🚛 3.2. [M2] - Módulo 2: Estudo de integração com o Security,pronto,done,Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,,https://app.clickup.com/t/86ak1t8nk
+Mapoteca,🚛 3.1. [M1] - Módulo 1: Implantação do Geonode (bd + servidor de mapas + aplicação) em DSV,pronto,done,,,,,https://app.clickup.com/t/86ajzkwdt
 Mapa Sindical,Mapa sindical - Formalização da 2º entrega para a DIRI,pronto,done,Larissa Gonçalves; Diego Leite Carvalho,https://attachments.clickup.com/profilePictures/54976749_Xym.jpg,,1747897200000,https://app.clickup.com/t/86a8wd43y
 Mapa Sindical,Mapa Sindical - Formalização de 1º entrega para a DIRI,pronto,done,Diego Leite Carvalho; Larissa Gonçalves,https://attachments.clickup.com/profilePictures/49124005_phS.jpg,,1745305200000,https://app.clickup.com/t/86a8472te
