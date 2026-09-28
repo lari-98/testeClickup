@@ -90,6 +90,20 @@ async function getListWithSubtasks(listId) {
   return listCache.get(listId);
 }
 
+// PO do projeto = responsável (assignee) da própria LISTA no ClickUp
+const listPOCache = new Map();
+async function getListPO(listId) {
+  if (listPOCache.has(listId)) return listPOCache.get(listId);
+  let po = "";
+  try {
+    const list = await api(`/list/${listId}`);
+    const a = list && list.assignee;
+    if (a) po = a.username || a.email || a.initials || "";
+  } catch (e) { /* lista sem responsável ou sem acesso: PO fica vazio */ }
+  listPOCache.set(listId, po);
+  return po;
+}
+
 /** Descobre quais custom_item_id contam como "marco" (nativo id 1 + tipos cujo nome casa) */
 let _marcoIds = null;
 async function marcoIds() {
@@ -138,7 +152,7 @@ function cell(v) {
 }
 
 function toCSV(rows) {
-  const header = ["List", "Task Name", "Status", "Status Type", "Status Color", "Assignees", "Assignee Avatar", "Start Date", "Due Date", "Task URL", "Group Status", "Group Status Color"];
+  const header = ["List", "Task Name", "Status", "Status Type", "Status Color", "Assignees", "Assignee Avatar", "Start Date", "Due Date", "Task URL", "Group Status", "Group Status Color", "Group PO"];
   const out = [header.join(",")];
   for (const t of rows) {
     const assignees = (t.assignees || []).map(a => a.username || a.email || "").filter(Boolean);
@@ -150,7 +164,7 @@ function toCSV(rows) {
       cell(assignees.join("; ")), cell(avatar),
       cell(t.start_date || ""), cell(t.due_date || ""),
       cell(t.url || ""),
-      cell(t.__groupStatus || ""), cell(t.__groupColor || "")
+      cell(t.__groupStatus || ""), cell(t.__groupColor || ""), cell(t.__groupPO || "")
     ].join(","));
   }
   return out.join("\r\n") + "\r\n";
@@ -165,9 +179,11 @@ function toCSV(rows) {
     for (const L of LISTS) {
       let batch = await fetchListTasks(L.id, false);
       if (ONLY_MILESTONES) batch = await keepMarcos(batch);
+      const lPO = await getListPO(L.id);
       for (const t of batch) {
         if (seen.has(t.id)) continue; seen.add(t.id);
         t.__group = L.name || (t.list && t.list.name) || ("Lista " + L.id);
+        t.__groupPO = lPO;
         rows.push(t);
       }
       console.log(`  [lista] ${L.name || L.id}: ${batch.length} tarefas`);
@@ -181,6 +197,8 @@ function toCSV(rows) {
       const group = P.name || parent.name || ("Tarefa " + P.id);
       const gStatus = parent.status ? parent.status.status : "";
       const gColor  = parent.status ? parent.status.color : "";
+      // PO do projeto = responsável da LISTA (não da tarefa-mãe)
+      const gPO = await getListPO(listId);
 
       const all = await getListWithSubtasks(listId);
       const byId = new Map(all.map(t => [t.id, t]));
@@ -193,7 +211,7 @@ function toCSV(rows) {
 
       for (const t of kids) {
         if (seen.has(t.id)) continue; seen.add(t.id);
-        t.__group = group; t.__groupStatus = gStatus; t.__groupColor = gColor;
+        t.__group = group; t.__groupStatus = gStatus; t.__groupColor = gColor; t.__groupPO = gPO;
         rows.push(t);
       }
       console.log(`  [mãe]   ${group}: ${kids.length} subtarefas`);
