@@ -96,13 +96,15 @@ body.metrics-min .metrics-min-line{display:block}
 .ptrow{height:var(--row-h);position:relative;border-bottom:1px solid var(--line-soft);background:var(--bg-2)}
 .ptrow.bm{border-bottom:2px solid var(--line)}
 .pspan{position:absolute;top:50%;transform:translateY(-50%);height:.72rem;border-radius:.36rem;background:var(--band-ok)}
-/* marco como LINHA (similar ao Hoje) */
-.mline{position:absolute;top:.28rem;bottom:.28rem;width:.9rem;transform:translateX(-50%);z-index:2;cursor:pointer}
-.mline::after{content:"";position:absolute;left:50%;top:0;bottom:0;transform:translateX(-50%);border-left:2px solid var(--c)}
-.mline::before{content:"";position:absolute;top:-.15rem;left:50%;transform:translate(-50%,0) rotate(45deg);width:.6rem;height:.6rem;background:var(--c);border-radius:.14rem}
+/* marco aninhado: losango vazado = PRAZO; bolinha interna = EXECUÇÃO (workflow) */
+.mline{position:absolute;top:.22rem;bottom:.22rem;width:1.35rem;transform:translateX(-50%);z-index:2;cursor:pointer}
+/* haste fina abaixo do marcador (mostra a posição da data na banda) */
+.mline::after{content:"";position:absolute;left:50%;top:.58rem;bottom:0;transform:translateX(-50%);border-left:2px solid var(--c);opacity:.5}
+/* losango vazado = PRAZO (verde/cinza/vermelho) */
+.mline::before{content:"";position:absolute;top:.58rem;left:50%;transform:translate(-50%,-50%) rotate(45deg);width:.95rem;height:.95rem;box-sizing:border-box;background:transparent;border:.18rem solid var(--c);border-radius:.12rem}
 .mline.late{--c:var(--late)}.mline.ontrack{--c:var(--ontrack)}.mline.done{--c:var(--done)}.mline.idle{--c:var(--idle)}
-/* bolinha de STATUS (workflow) abaixo da linha: aberta=cinza, parada=vermelho, concluída=verde */
-.mline .wf{position:absolute;bottom:-.05rem;left:50%;transform:translateX(-50%);width:.46rem;height:.46rem;border-radius:50%;background:var(--wf,var(--st-ok));border:1.5px solid #fff;box-shadow:0 0 0 .5px rgba(0,0,0,.12)}
+/* bolinha interna = EXECUÇÃO: aberta=cinza, parada=vermelho, concluída=verde */
+.mline .wf{position:absolute;top:.58rem;left:50%;transform:translate(-50%,-50%);width:.52rem;height:.52rem;border-radius:50%;background:var(--wf,var(--st-ok));box-shadow:0 0 0 1.5px var(--bg-2);z-index:3}
 .marker{cursor:pointer}
 /* caixinha de hover no estilo dos cards do topo */
 .tip{position:fixed;z-index:60;pointer-events:none;background:#fff;border:1px solid var(--line);border-left:.28rem solid var(--tc,var(--ink-dim));border-radius:.7rem;box-shadow:0 10px 28px rgba(20,30,60,.18);padding:.6rem .75rem;max-width:22rem;opacity:0;transition:opacity .1s;display:none}
