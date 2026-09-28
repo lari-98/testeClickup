@@ -17,6 +17,7 @@
   /* estados de marco/projeto (cinza=em dia, vermelho=não entregue/atrasado, verde=entregue) */
   --st-ok:#9aa6bd;--st-late:#e5484d;--st-done:#2fd48a;
   --band-ok:#c3cbd9;--band-late:#f0a6ab;--band-done:#a3ddbe;
+  --dia-ok:#8090a8;--dia-late:#d75b62;--dia-done:#4bb98a;  /* contorno do losango: mais escuro que a banda */
   --row-h:2.9rem;--list-w:33%;--list-w-min:22rem;
   box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
@@ -229,7 +230,7 @@ body.pres .pres-badge{display:inline-flex}
    ============================================================================ */
 const CONFIG = {
   CSV_URL: "data.csv",
-  TITLE: "Projetos DIEX",        // título da página (o ano atual é acrescentado sozinho)
+  TITLE: "Projetos DIEX - CTI",  // título da página (o ano atual é acrescentado sozinho)
   PROJECT_NAME: "SIRGEO Creativity", // usado só no modo demo
   RELOAD_MINUTES: 30,
   START_VIEW: "ano",
@@ -405,8 +406,8 @@ const WF_COLOR={open:"var(--st-ok)",stopped:"var(--st-late)",done:"var(--st-done
 // ---- cores por status (3 estados) ----
 // marco (losango/linha) = PRAZO: cinza = em dia; vermelho = não entregue (atrasado); verde = entregue
 function pinColor(cls){ return cls==="late"?"var(--st-late)":cls==="done"?"var(--st-done)":"var(--st-ok)"; }
-// versão suave (cor da banda/timeline) para o contorno do losango
-function pinBand(cls){ return cls==="late"?"var(--band-late)":cls==="done"?"var(--band-done)":"var(--band-ok)"; }
+// contorno do losango: tom da timeline, porém um pouco mais escuro (para ver o formato)
+function pinBand(cls){ return cls==="late"?"var(--dia-late)":cls==="done"?"var(--dia-done)":"var(--dia-ok)"; }
 // projeto: verde = tudo entregue; vermelho = pelo menos um atrasado; cinza = em dia
 function projState(g,now){
   const cs=g.ms.map(m=>classify(m,now));
