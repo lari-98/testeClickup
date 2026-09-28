@@ -460,7 +460,7 @@ function render(){
   // legenda fixa (3 estados de marco)
   document.getElementById("legend").innerHTML=
     `<span><i style="background:var(--st-ok)"></i>Em dia</span>`+
-    `<span><i style="background:var(--st-late)"></i>Não entregue</span>`+
+    `<span><i style="background:var(--st-late)"></i>Atrasado</span>`+
     `<span><i style="background:var(--st-done)"></i>Entregue</span>`;
   const b={late:0,ontrack:0,done:0,idle:0};
   rows.forEach(m=>b[classify(m,now)]++);
