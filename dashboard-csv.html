@@ -98,13 +98,12 @@ body.metrics-min .metrics-min-line{display:block}
 .pspan{position:absolute;top:50%;transform:translateY(-50%);height:.72rem;border-radius:.36rem;background:var(--band-ok)}
 /* marco aninhado: losango vazado = PRAZO; bolinha interna = EXECUÇÃO (workflow) */
 .mline{position:absolute;top:.22rem;bottom:.22rem;width:1.35rem;transform:translateX(-50%);z-index:2;cursor:pointer}
-/* haste fina abaixo do marcador (mostra a posição da data na banda) */
-.mline::after{content:"";position:absolute;left:50%;top:.58rem;bottom:0;transform:translateX(-50%);border-left:2px solid var(--c);opacity:.5}
-/* losango vazado = PRAZO (verde/cinza/vermelho) */
-.mline::before{content:"";position:absolute;top:.58rem;left:50%;transform:translate(-50%,-50%) rotate(45deg);width:.95rem;height:.95rem;box-sizing:border-box;background:transparent;border:.18rem solid var(--c);border-radius:.12rem}
-.mline.late{--c:var(--late)}.mline.ontrack{--c:var(--ontrack)}.mline.done{--c:var(--done)}.mline.idle{--c:var(--idle)}
-/* bolinha interna = EXECUÇÃO: aberta=cinza, parada=vermelho, concluída=verde */
-.mline .wf{position:absolute;top:.58rem;left:50%;transform:translate(-50%,-50%);width:.52rem;height:.52rem;border-radius:50%;background:var(--wf,var(--st-ok));box-shadow:0 0 0 1.5px var(--bg-2);z-index:3}
+/* haste fina abaixo do marcador (cor suave da banda) */
+.mline::after{content:"";position:absolute;left:50%;top:.58rem;bottom:0;transform:translateX(-50%);border-left:2px solid var(--cb,var(--band-ok))}
+/* losango vazado = PRAZO, na cor SUAVE da timeline */
+.mline::before{content:"";position:absolute;top:.58rem;left:50%;transform:translate(-50%,-50%) rotate(45deg);width:.95rem;height:.95rem;box-sizing:border-box;background:transparent;border:.18rem solid var(--cb,var(--band-ok));border-radius:.12rem}
+/* bolinha interna = EXECUÇÃO (saturada): aberta=cinza, parada=vermelho, concluída=verde */
+.mline .wf{position:absolute;top:.58rem;left:50%;transform:translate(-50%,-50%);width:.52rem;height:.52rem;border-radius:50%;background:var(--wf,var(--st-ok));z-index:3}
 .marker{cursor:pointer}
 /* caixinha de hover no estilo dos cards do topo */
 .tip{position:fixed;z-index:60;pointer-events:none;background:#fff;border:1px solid var(--line);border-left:.28rem solid var(--tc,var(--ink-dim));border-radius:.7rem;box-shadow:0 10px 28px rgba(20,30,60,.18);padding:.6rem .75rem;max-width:22rem;opacity:0;transition:opacity .1s;display:none}
@@ -406,6 +405,8 @@ const WF_COLOR={open:"var(--st-ok)",stopped:"var(--st-late)",done:"var(--st-done
 // ---- cores por status (3 estados) ----
 // marco (losango/linha) = PRAZO: cinza = em dia; vermelho = não entregue (atrasado); verde = entregue
 function pinColor(cls){ return cls==="late"?"var(--st-late)":cls==="done"?"var(--st-done)":"var(--st-ok)"; }
+// versão suave (cor da banda/timeline) para o contorno do losango
+function pinBand(cls){ return cls==="late"?"var(--band-late)":cls==="done"?"var(--band-done)":"var(--band-ok)"; }
 // projeto: verde = tudo entregue; vermelho = pelo menos um atrasado; cinza = em dia
 function projState(g,now){
   const cs=g.ms.map(m=>classify(m,now));
@@ -505,7 +506,7 @@ function render(){
     let bands=`<div class="pspan" style="left:${Math.min(x0,x1)}%;width:${Math.max(.6,Math.abs(x1-x0))}%;background:${PROJ_BAND[pst]}"></div>`;
     for(const m of g.ms){
       const cls=classify(m,now), pc=pinColor(cls), wf=workflowState(m);
-      bands+=`<div class="mline" style="left:${pct(m.due,dom)}%;--c:${pc};--wf:${WF_COLOR[wf]}" data-n="${escapeHtml(m.name)}" data-d="${fmtDate(m.due)}" data-s="${cls}" data-sn="${escapeHtml(m.statusName)}" data-c="${pc}" data-u="${escapeHtml(m.url||"")}"><span class="wf"></span></div>`;
+      bands+=`<div class="mline" style="left:${pct(m.due,dom)}%;--c:${pc};--cb:${pinBand(cls)};--wf:${WF_COLOR[wf]}" data-n="${escapeHtml(m.name)}" data-d="${fmtDate(m.due)}" data-s="${cls}" data-sn="${escapeHtml(m.statusName)}" data-c="${pc}" data-u="${escapeHtml(m.url||"")}"><span class="wf"></span></div>`;
     }
     pt.innerHTML=bands; trackCol.appendChild(pt);
 
