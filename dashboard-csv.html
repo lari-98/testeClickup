@@ -493,7 +493,7 @@ function render(){
     const open=EXPANDED.has(g.name);
     const pst=projState(g,now);           // "ok" | "late" | "done"
     const bm = (pidx%2===1) ? " bm" : ""; pidx++;   // separador mais grosso a cada 2 projetos
-    const po = groupPOFor(g);
+    const po = groupPOFor(g).split(/\s+/).filter(Boolean).slice(0,2).join(" ");
     // ----- linha do projeto (esquerda) -----
     const pl=document.createElement("div");pl.className="prow"+(open?" open":"")+bm;pl.dataset.proj=g.name;
     pl.innerHTML=`<span class="chev">▶</span><span class="pdot" style="background:${PROJ_PIN[pst]}"></span>
