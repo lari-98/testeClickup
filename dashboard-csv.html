@@ -16,7 +16,7 @@
   --late:#e5484d;--ontrack:#3b6fe0;--done:#12a06a;--idle:#aab4c8;--now:#e5484d;
   /* estados de marco/projeto (cinza=em dia, vermelho=não entregue/atrasado, verde=entregue) */
   --st-ok:#9aa6bd;--st-late:#e5484d;--st-done:#2fd48a;
-  --band-ok:#dce0e8;--band-late:#f6cccf;--band-done:#c6ecd8;
+  --band-ok:#c3cbd9;--band-late:#f0a6ab;--band-done:#a3ddbe;
   --row-h:2.9rem;--list-w:33%;--list-w-min:22rem;
   box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
@@ -46,13 +46,24 @@ select:disabled{opacity:.45;cursor:default}
 .live-dot.demo{background:var(--now)} .live-dot.err{background:var(--late)}
 .metrics{display:flex;gap:.8rem;align-items:stretch;margin:.7rem 0 .6rem;flex-wrap:wrap}
 .counters{flex:1 1 30rem;display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;min-width:0}
-.stat{position:relative;background:var(--bg-2);border:1px solid var(--line);border-radius:.9rem;padding:.85rem 1rem .95rem;overflow:hidden;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+.stat{position:relative;display:flex;align-items:center;gap:.7rem;background:var(--bg-2);border:1px solid var(--line);border-radius:.9rem;padding:.55rem .9rem;overflow:hidden;box-shadow:0 1px 2px rgba(20,30,60,.04)}
 .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:.28rem;background:var(--c)}
-.stat .num{font-family:"Archivo";font-weight:800;font-size:2.4rem;line-height:.95;letter-spacing:-.02em;color:var(--c)}
-.stat .lab{font-family:"Archivo";font-weight:600;font-size:.82rem;color:var(--ink-dim);margin-top:.25rem}
-.stat .sub{font-size:.68rem;color:var(--ink-faint);margin-top:.05rem}
+.stat .num{font-family:"Archivo";font-weight:800;font-size:2rem;line-height:1;letter-spacing:-.02em;color:var(--c);flex:0 0 auto}
+.stat .txt{display:flex;flex-direction:column;min-width:0}
+.stat .lab{font-family:"Archivo";font-weight:600;font-size:.8rem;color:var(--ink-dim);line-height:1.1}
+.stat .sub{font-size:.66rem;color:var(--ink-faint);margin-top:.05rem}
 .stat.late{--c:var(--late)}.stat.ontrack{--c:var(--ontrack)}.stat.done{--c:var(--done)}.stat.total{--c:var(--ink-dim)}
 .stat.total .num{color:var(--ink)}
+/* botão minimizar + estado recolhido dos grandes números */
+.metrics-wrap{position:relative}
+.mintog{position:absolute;top:-.1rem;right:0;z-index:2;font-family:"Archivo";font-weight:700;font-size:.7rem;color:var(--ink-dim);background:var(--bg-2);border:1px solid var(--line);border-radius:.45rem;padding:.15rem .5rem;cursor:pointer;line-height:1.2}
+.mintog:hover{background:var(--panel-2)}
+body.metrics-min .counters{display:none}
+body.metrics-min .metrics{margin:.2rem 0 .4rem}
+.metrics-min-line{display:none;font-size:.72rem;color:var(--ink-dim);padding:.1rem .2rem}
+body.metrics-min .metrics-min-line{display:block}
+.metrics-min-line b{font-family:"Archivo";font-weight:800}
+.metrics-min-line .mm-late{color:var(--late)}.metrics-min-line .mm-ok{color:var(--ontrack)}.metrics-min-line .mm-done{color:var(--done)}
 .board{flex:1;display:flex;flex-direction:column;min-height:0;background:var(--bg-2);border:1px solid var(--line);border-radius:1rem;overflow:hidden;position:relative;box-shadow:0 1px 3px rgba(20,30,60,.05)}
 .board-head{display:flex;align-items:stretch;border-bottom:1px solid var(--line);height:2.4rem;flex:0 0 auto;background:var(--panel-2)}
 .head-info{width:var(--list-w);min-width:var(--list-w-min);display:flex;align-items:center;gap:1rem;padding:0 1rem;border-right:1px solid var(--line)}
@@ -74,22 +85,24 @@ select:disabled{opacity:.45;cursor:default}
 
 /* ---- linha de projeto (recolhida = resumo) ---- */
 .prow{height:var(--row-h);display:flex;align-items:center;gap:.55rem;padding:0 1rem;border-bottom:1px solid var(--line-soft);cursor:pointer;background:var(--bg-2)}
-.prow.alt{background:var(--stripe)}
+.prow.bm{border-bottom:2px solid var(--line)}
 .prow:hover{background:#eef2fb}
 .chev{width:1rem;color:var(--ink-faint);font-size:.8rem;transition:transform .12s;flex:0 0 auto}
 .prow.open .chev{transform:rotate(90deg)}
 .pdot{width:.7rem;height:.7rem;border-radius:.2rem;flex:0 0 auto}
 .pname{font-family:"Archivo";font-weight:700;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
-.pcount{font-size:.72rem;color:var(--ink-dim);flex:0 0 auto}
-.pcount b{color:var(--late)}
+.ppo{margin-left:auto;flex:0 0 auto;max-width:42%;font-family:"Archivo";font-weight:600;font-size:.74rem;color:var(--ink-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-flex;align-items:center;gap:.35rem}
+.ppo::before{content:"PO";font-size:.58rem;font-weight:700;color:#fff;background:var(--ink-faint);border-radius:.25rem;padding:.06rem .3rem;letter-spacing:.03em;flex:0 0 auto}
 .ptrow{height:var(--row-h);position:relative;border-bottom:1px solid var(--line-soft);background:var(--bg-2)}
-.ptrow.alt{background:var(--stripe)}
-.pspan{position:absolute;top:50%;transform:translateY(-50%);height:.5rem;border-radius:.3rem;background:var(--band-ok)}
+.ptrow.bm{border-bottom:2px solid var(--line)}
+.pspan{position:absolute;top:50%;transform:translateY(-50%);height:.72rem;border-radius:.36rem;background:var(--band-ok)}
 /* marco como LINHA (similar ao Hoje) */
 .mline{position:absolute;top:.28rem;bottom:.28rem;width:.9rem;transform:translateX(-50%);z-index:2;cursor:pointer}
 .mline::after{content:"";position:absolute;left:50%;top:0;bottom:0;transform:translateX(-50%);border-left:2px solid var(--c)}
 .mline::before{content:"";position:absolute;top:-.15rem;left:50%;transform:translate(-50%,0) rotate(45deg);width:.6rem;height:.6rem;background:var(--c);border-radius:.14rem}
 .mline.late{--c:var(--late)}.mline.ontrack{--c:var(--ontrack)}.mline.done{--c:var(--done)}.mline.idle{--c:var(--idle)}
+/* bolinha de STATUS (workflow) abaixo da linha: aberta=cinza, parada=vermelho, concluída=verde */
+.mline .wf{position:absolute;bottom:-.05rem;left:50%;transform:translateX(-50%);width:.46rem;height:.46rem;border-radius:50%;background:var(--wf,var(--st-ok));border:1.5px solid #fff;box-shadow:0 0 0 .5px rgba(0,0,0,.12)}
 .marker{cursor:pointer}
 /* caixinha de hover no estilo dos cards do topo */
 .tip{position:fixed;z-index:60;pointer-events:none;background:#fff;border:1px solid var(--line);border-left:.28rem solid var(--tc,var(--ink-dim));border-radius:.7rem;box-shadow:0 10px 28px rgba(20,30,60,.18);padding:.6rem .75rem;max-width:22rem;opacity:0;transition:opacity .1s;display:none}
@@ -103,7 +116,6 @@ select:disabled{opacity:.45;cursor:default}
 
 /* ---- marcos em detalhe (expandido) ---- */
 .lrow{height:var(--row-h);display:flex;align-items:center;gap:.7rem;padding:0 1rem 0 2.2rem;border-bottom:1px solid var(--line-soft);background:var(--bg-2)}
-.lrow.alt{background:var(--stripe)}
 .lrow .mname{font-weight:500;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0;color:var(--ink);text-decoration:none}
 a.mname:hover{color:var(--ontrack);text-decoration:underline}
 a.mname .ext{color:var(--ink-faint);font-size:.72rem}
@@ -114,7 +126,6 @@ a.mname:hover .ext{color:var(--ontrack)}
 .sdot{width:.6rem;height:.6rem;border-radius:50%;flex:0 0 auto}
 .sdot.late{background:var(--late)}.sdot.ontrack{background:var(--ontrack)}.sdot.done{background:var(--done)}.sdot.idle{background:transparent;box-shadow:inset 0 0 0 1.5px var(--idle)}
 .trow{height:var(--row-h);position:relative;border-bottom:1px solid var(--line-soft);background:var(--bg-2)}
-.trow.alt{background:var(--stripe)}
 .bar{position:absolute;top:50%;transform:translateY(-50%);height:.95rem;border-radius:.5rem;min-width:.5rem;overflow:hidden;background:rgba(20,30,60,.05);box-shadow:inset 0 0 0 1px rgba(20,30,60,.06)}
 .bar .fill{position:absolute;left:0;top:0;bottom:0;border-radius:.5rem}
 .bar.idle{background:transparent;box-shadow:inset 0 0 0 1.5px var(--idle)}
@@ -177,9 +188,13 @@ body.pres .pres-badge{display:inline-flex}
     </div>
   </header>
 
-  <section class="metrics">
-    <div class="counters" id="counters"></div>
-  </section>
+  <div class="metrics-wrap">
+    <button class="mintog" id="minTog" title="Minimizar / expandir os indicadores">▲ Minimizar</button>
+    <section class="metrics">
+      <div class="counters" id="counters"></div>
+    </section>
+    <div class="metrics-min-line" id="metricsMin"></div>
+  </div>
 
   <div class="tip" id="tip"></div>
   <div class="board dropzone" id="board">
@@ -234,7 +249,8 @@ const CONFIG = {
     list:["list","lista","projeto","project","list name","nome da lista"],
     url:["task url","url","link","task link","url da tarefa"],
     groupStatus:["group status","status do projeto","status do grupo"],
-    groupColor:["group status color","cor do projeto","cor do grupo","group color"]
+    groupColor:["group status color","cor do projeto","cor do grupo","group color"],
+    groupPO:["group po","po","po do projeto","responsável do projeto","responsavel do projeto","gerente"]
   }
 };
 const CURR_YEAR = new Date().getFullYear();
@@ -255,13 +271,14 @@ const DEMO=[
 function buildDemo(){
   const COLOR={done:"#2fd48a",idle:"#9aa6bd",open:"#4d84ff"};
   const PSTATUS={SIRGEO:["Em andamento","#4d84ff"],SISVIAS:["Parado","#e5484d"],MAPOTECA:["Concluído","#2fd48a"]};
+  const PPO={SIRGEO:"Ana Ribeiro",SISVIAS:"Marcos Costa",MAPOTECA:"Júlia Souza"};
   return DEMO.map((t,i)=>({id:"d"+i,name:t[0],due:d(t[1]),start:null,
     statusName:t[3]==="done"?"Concluído":(t[3]==="idle"?"A fazer":"Em andamento"),
     statusType:t[3]==="done"?"done":"open",
     statusColor:t[3]==="done"?COLOR.done:(t[3]==="idle"?COLOR.idle:COLOR.open),
     idleFlag:t[3]==="idle",
     owner:mkOwner(TEAM[t[2]][0]),project:t[4],
-    groupStatus:(PSTATUS[t[4]]||["",""])[0],groupColor:(PSTATUS[t[4]]||["",""])[1]}));
+    groupStatus:(PSTATUS[t[4]]||["",""])[0],groupColor:(PSTATUS[t[4]]||["",""])[1],groupPO:PPO[t[4]]||""}));
 }
 
 /* ============================================================================
@@ -312,7 +329,8 @@ function csvToTasks(text){
     due:findCol(headers,CONFIG.HEADERS.due),
     start:findCol(headers,CONFIG.HEADERS.start), assignee:findCol(headers,CONFIG.HEADERS.assignee),
     list:findCol(headers,CONFIG.HEADERS.list), url:findCol(headers,CONFIG.HEADERS.url),
-    groupStatus:findCol(headers,CONFIG.HEADERS.groupStatus), groupColor:findCol(headers,CONFIG.HEADERS.groupColor)
+    groupStatus:findCol(headers,CONFIG.HEADERS.groupStatus), groupColor:findCol(headers,CONFIG.HEADERS.groupColor),
+    groupPO:findCol(headers,CONFIG.HEADERS.groupPO)
   };
   if(ci.name<0) throw new Error('Não achei a coluna do nome da tarefa. Cabeçalhos lidos: '+headers.join(" | "));
   if(ci.due<0)  throw new Error('Não achei a coluna de data de entrega (due date). Cabeçalhos lidos: '+headers.join(" | "));
@@ -331,7 +349,8 @@ function csvToTasks(text){
       project: (ci.list>=0 ? (row[ci.list]||"").trim() : "") || "Sem projeto",
       url: ci.url>=0 ? (row[ci.url]||"").trim() : "",
       groupStatus: ci.groupStatus>=0 ? (row[ci.groupStatus]||"").trim() : "",
-      groupColor: ci.groupColor>=0 ? (row[ci.groupColor]||"").trim() : ""
+      groupColor: ci.groupColor>=0 ? (row[ci.groupColor]||"").trim() : "",
+      groupPO: ci.groupPO>=0 ? (row[ci.groupPO]||"").trim() : ""
     });
   }
   if(out.length===0) throw new Error("Nenhuma tarefa com data de entrega encontrada no CSV.");
@@ -373,8 +392,17 @@ function groupColorFor(g,now){
   return CLS_COLOR.ontrack;
 }
 function groupStatusFor(g){const w=g.ms.find(m=>(m.groupStatus||"").trim());return w?w.groupStatus.trim():"";}
+function groupPOFor(g){const w=g.ms.find(m=>(m.groupPO||"").trim());return w?w.groupPO.trim():"";}
+// status de WORKFLOW do marco (independe do prazo): aberta=cinza, parada=vermelho, concluída=verde
+function workflowState(m){
+  const t=(m.statusType||"").toLowerCase(), n=(m.statusName||"").toLowerCase();
+  if(t==="done"||t==="closed"||/concl|pronto|done|complete|closed|entreg|finaliz/.test(n)) return "done";
+  if(/parad|rejeit|cancel|bloque|blocked|stopped|on hold|em espera|suspenso/.test(n)) return "stopped";
+  return "open";
+}
+const WF_COLOR={open:"var(--st-ok)",stopped:"var(--st-late)",done:"var(--st-done)"};
 // ---- cores por status (3 estados) ----
-// marco: cinza = em dia; vermelho = não entregue (atrasado); verde = entregue
+// marco (losango/linha) = PRAZO: cinza = em dia; vermelho = não entregue (atrasado); verde = entregue
 function pinColor(cls){ return cls==="late"?"var(--st-late)":cls==="done"?"var(--st-done)":"var(--st-ok)"; }
 // projeto: verde = tudo entregue; vermelho = pelo menos um atrasado; cinza = em dia
 function projState(g,now){
@@ -432,11 +460,14 @@ function render(){
     `<span><i style="background:var(--st-done)"></i>Entregue</span>`;
   const b={late:0,ontrack:0,done:0,idle:0};
   rows.forEach(m=>b[classify(m,now)]++);
+  const periodo=VIEW==="mes"?MESES_LONGOS[MONTH]+" / "+YEAR:"Ano de "+YEAR;
   document.getElementById("counters").innerHTML=`
-    <div class="stat late"><div class="num">${b.late}</div><div class="lab">Atrasados</div><div class="sub">passaram do prazo</div></div>
-    <div class="stat ontrack"><div class="num">${b.ontrack+b.idle}</div><div class="lab">No prazo</div><div class="sub">${b.idle} não iniciados</div></div>
-    <div class="stat done"><div class="num">${b.done}</div><div class="lab">Concluídos</div><div class="sub">entregues</div></div>
-    <div class="stat total"><div class="num">${rows.length}</div><div class="lab">Marcos no período</div><div class="sub">${VIEW==="mes"?MESES_LONGOS[MONTH]+" / "+YEAR:"Ano de "+YEAR}</div></div>`;
+    <div class="stat late"><div class="num">${b.late}</div><div class="txt"><div class="lab">Atrasados</div><div class="sub">passaram do prazo</div></div></div>
+    <div class="stat ontrack"><div class="num">${b.ontrack+b.idle}</div><div class="txt"><div class="lab">No prazo</div><div class="sub">${b.idle} não iniciados</div></div></div>
+    <div class="stat done"><div class="num">${b.done}</div><div class="txt"><div class="lab">Concluídos</div><div class="sub">entregues</div></div></div>
+    <div class="stat total"><div class="num">${rows.length}</div><div class="txt"><div class="lab">Marcos no período</div><div class="sub">${periodo}</div></div></div>`;
+  document.getElementById("metricsMin").innerHTML=
+    `<b class="mm-late">${b.late}</b> atrasados · <b class="mm-ok">${b.ontrack+b.idle}</b> no prazo · <b class="mm-done">${b.done}</b> concluídos · <b>${rows.length}</b> marcos (${periodo})`;
 
   const axisHead=document.getElementById("axisHead"),axisLines=document.getElementById("axisLines");
   axisHead.innerHTML=""; axisLines.querySelectorAll(".vline,.today").forEach(n=>n.remove());
@@ -453,36 +484,37 @@ function render(){
   const groups=groupsFor(rows);
   document.getElementById("emptyState").style.display = rows.length? "none":"grid";
 
-  let rowi=0;  // contador para as listras (zebra) — linhas da esquerda e direita casadas
+  let pidx=0;  // contador de projetos para o "bookmark" (linha mais grossa a cada 2 projetos)
   for(const g of groups){
     const open=EXPANDED.has(g.name);
     const pst=projState(g,now);           // "ok" | "late" | "done"
-    const alt = (rowi%2===1) ? " alt" : ""; rowi++;
+    const bm = (pidx%2===1) ? " bm" : ""; pidx++;   // separador mais grosso a cada 2 projetos
+    const po = groupPOFor(g);
     // ----- linha do projeto (esquerda) -----
-    const pl=document.createElement("div");pl.className="prow"+(open?" open":"")+alt;pl.dataset.proj=g.name;
+    const pl=document.createElement("div");pl.className="prow"+(open?" open":"")+bm;pl.dataset.proj=g.name;
     pl.innerHTML=`<span class="chev">▶</span><span class="pdot" style="background:${PROJ_PIN[pst]}"></span>
-      <span class="pname">${escapeHtml(g.name)}</span>`;
+      <span class="pname">${escapeHtml(g.name)}</span>
+      ${po?`<span class="ppo" title="PO do projeto">${escapeHtml(po)}</span>`:""}`;
     listCol.appendChild(pl);
     // ----- banda do projeto (direita): cor pelo status do projeto; marcos como LINHAS -----
-    const pt=document.createElement("div");pt.className="ptrow"+alt;
+    const pt=document.createElement("div");pt.className="ptrow"+bm;
     const dues=g.ms.map(m=>m.due), starts=g.ms.map(m=>m.effStart);
     const x0=pct(Math.min(...starts),dom), x1=pct(Math.max(...dues),dom);
     let bands=`<div class="pspan" style="left:${Math.min(x0,x1)}%;width:${Math.max(.6,Math.abs(x1-x0))}%;background:${PROJ_BAND[pst]}"></div>`;
     for(const m of g.ms){
-      const cls=classify(m,now), pc=pinColor(cls);
-      bands+=`<div class="mline" style="left:${pct(m.due,dom)}%;--c:${pc}" data-n="${escapeHtml(m.name)}" data-d="${fmtDate(m.due)}" data-s="${cls}" data-sn="${escapeHtml(m.statusName)}" data-c="${pc}" data-u="${escapeHtml(m.url||"")}"></div>`;
+      const cls=classify(m,now), pc=pinColor(cls), wf=workflowState(m);
+      bands+=`<div class="mline" style="left:${pct(m.due,dom)}%;--c:${pc};--wf:${WF_COLOR[wf]}" data-n="${escapeHtml(m.name)}" data-d="${fmtDate(m.due)}" data-s="${cls}" data-sn="${escapeHtml(m.statusName)}" data-c="${pc}" data-u="${escapeHtml(m.url||"")}"><span class="wf"></span></div>`;
     }
     pt.innerHTML=bands; trackCol.appendChild(pt);
 
-    // ----- detalhe (expandido): um marco por linha (também com zebra) -----
+    // ----- detalhe (expandido): um marco por linha -----
     if(open){
       for(const m of g.ms){
         const cls=classify(m,now),lt=cls==="late",pc=pinColor(cls);
-        const ralt = (rowi%2===1) ? " alt" : ""; rowi++;
-        const l=document.createElement("div");l.className="lrow"+ralt;
+        const l=document.createElement("div");l.className="lrow";
         l.innerHTML=`<span class="sdot" style="background:${pc};box-shadow:none"></span>${avatarHTML(m.owner)}${nameHTML(m)}<span class="mdate ${lt?"late":""}">${fmtDate(m.due)}</span>`;
         listCol.appendChild(l);
-        const r=document.createElement("div");r.className="trow"+ralt;
+        const r=document.createElement("div");r.className="trow";
         const bx0=pct(m.effStart,dom),bx1=pct(m.due,dom),left=Math.min(bx0,bx1),width=Math.max(.6,Math.abs(bx1-bx0));
         let fill=100; if(cls==="ontrack")fill=m.effStart<m.due?Math.max(4,Math.min(100,(now-m.effStart)/(m.due-m.effStart)*100)):100; if(cls==="idle")fill=0;
         r.innerHTML=`<div class="bar ${cls==="idle"?"idle":cls}" style="left:${left}%;width:${width}%"><div class="fill" style="width:${fill}%;background:${pc}"></div></div>
@@ -522,6 +554,14 @@ document.getElementById("projSel").addEventListener("change",e=>{PROJECT=e.targe
 document.getElementById("yearSel").addEventListener("change",e=>{YEAR=Number(e.target.value);render();});
 document.getElementById("monthSel").addEventListener("change",e=>{MONTH=Number(e.target.value);render();});
 document.getElementById("fileInput").addEventListener("change",e=>{const f=e.target.files[0];if(f)readFile(f);});
+// minimizar / expandir os grandes números (lembra a escolha)
+function setMetricsMin(on){
+  document.body.classList.toggle("metrics-min",on);
+  document.getElementById("minTog").textContent = on ? "▼ Indicadores" : "▲ Minimizar";
+  try{ localStorage.setItem("diex_metrics_min", on?"1":"0"); }catch(e){}
+}
+document.getElementById("minTog").addEventListener("click",()=>setMetricsMin(!document.body.classList.contains("metrics-min")));
+try{ if(localStorage.getItem("diex_metrics_min")==="1") setMetricsMin(true); }catch(e){}
 // ---- caixinha de hover no marco (estilo card) ----
 const tip=document.getElementById("tip");
 const STLAB={late:"Atrasado",ontrack:"No prazo",done:"Concluído",idle:"Não iniciado"};
